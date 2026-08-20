@@ -2,26 +2,38 @@ import Image from "next/image"
 import { ArrowUpRight, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import {
-  EMAIL,
-  ONLINE_INCLUDES,
-  ONLINE_LEVELS,
-  PHONE_HREF,
-  WHATSAPP_URL,
-  whatsappEnrollUrl,
-} from "@/lib/content"
+import { ONLINE_INCLUDES, ONLINE_LEVELS, whatsappEnrollUrl } from "@/lib/content"
+import type { PublicOnlineLevel } from "@/lib/site-data"
+import type { SiteContactSettings } from "@/lib/site-settings"
 import { cn } from "@/lib/utils"
 
-const QR_SRC = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(WHATSAPP_URL)}`
+export function OnlineLevelsSection({
+  levels = ONLINE_LEVELS.map((t) => ({
+    level: t.level,
+    name: t.name,
+    badgeColor: t.badgeColor,
+    monthlyPrice: t.monthlyPrice,
+    fullPrice: t.fullPrice,
+    features: [...t.features],
+    message: t.message,
+  })),
+  contact,
+  whatsappUrl,
+  phoneHref,
+}: {
+  levels?: PublicOnlineLevel[]
+  contact: SiteContactSettings
+  whatsappUrl: string
+  phoneHref: string
+}) {
+  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(whatsappUrl)}`
 
-export function OnlineLevelsSection() {
   return (
     <section id="online" className="overflow-hidden">
-      {/* Banner header */}
       <div className="bg-navy px-4 py-14 text-center sm:px-6 lg:px-8">
         <div className="mx-auto mb-6 flex justify-center">
           <Image
-            src="/arab-academy-logo.jpg"
+            src="/logo.svg"
             alt="Arab Pro Academy"
             width={88}
             height={88}
@@ -39,7 +51,6 @@ export function OnlineLevelsSection() {
         </div>
       </div>
 
-      {/* Choose your level */}
       <div className="bg-cream px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
@@ -52,7 +63,7 @@ export function OnlineLevelsSection() {
           </div>
 
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-            {ONLINE_LEVELS.map((track) => (
+            {levels.map((track) => (
               <div
                 key={track.name}
                 className="overflow-hidden rounded-2xl bg-white shadow-xl shadow-navy/10"
@@ -101,7 +112,7 @@ export function OnlineLevelsSection() {
 
                   <Button asChild size="lg" className="w-full">
                     <a
-                      href={whatsappEnrollUrl(track.message)}
+                      href={whatsappEnrollUrl(track.message, contact.whatsapp)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -114,7 +125,6 @@ export function OnlineLevelsSection() {
             ))}
           </div>
 
-          {/* What's included */}
           <div className="mx-auto mt-16 max-w-4xl">
             <h3 className="mb-8 text-center font-display text-3xl font-black text-navy">
               What&apos;s Included
@@ -133,7 +143,6 @@ export function OnlineLevelsSection() {
         </div>
       </div>
 
-      {/* Contact strip */}
       <div className="bg-navy px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-10 md:flex-row md:items-start">
           <div>
@@ -141,30 +150,30 @@ export function OnlineLevelsSection() {
               Get In Touch
             </h4>
             <ul className="space-y-3 text-sm">
+              {contact.websiteUrl ? (
+                <li className="flex items-center gap-3">
+                  <span className="h-2 w-2 rounded-full bg-teal-light" />
+                  <a
+                    href={contact.websiteUrl}
+                    className="text-teal-light hover:underline"
+                  >
+                    {contact.websiteUrl.replace(/^https?:\/\//, "")}
+                  </a>
+                </li>
+              ) : null}
               <li className="flex items-center gap-3">
                 <span className="h-2 w-2 rounded-full bg-teal-light" />
                 <a
-                  href="https://arab-pro-academy-web-16nb.bolt.host"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-teal-light hover:underline"
-                >
-                  arab-pro-academy-web-16nb.bolt.host
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="h-2 w-2 rounded-full bg-teal-light" />
-                <a
-                  href={`mailto:${EMAIL}`}
+                  href={`mailto:${contact.email}`}
                   className="text-white hover:text-gold"
                 >
-                  {EMAIL}
+                  {contact.email}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <span className="h-2 w-2 rounded-full bg-teal-light" />
-                <a href={PHONE_HREF} className="text-white hover:text-gold">
-                  Call / WhatsApp: +966 57 491 5561
+                <a href={phoneHref} className="text-white hover:text-gold">
+                  Call / WhatsApp: {contact.phoneDisplay}
                 </a>
               </li>
             </ul>
@@ -172,14 +181,14 @@ export function OnlineLevelsSection() {
 
           <div className="flex flex-col items-center gap-3">
             <a
-              href={WHATSAPP_URL}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-xl bg-white p-3 shadow-lg transition-transform hover:scale-105"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={QR_SRC}
+                src={qrSrc}
                 alt="WhatsApp QR code"
                 width={160}
                 height={160}

@@ -1,15 +1,18 @@
 import Image from "next/image"
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
 
-import {
-  EMAIL,
-  NAV_LINKS,
-  PHONE_DISPLAY,
-  PHONE_HREF,
-  WHATSAPP_URL,
-} from "@/lib/content"
+import { NAV_LINKS } from "@/lib/content"
+import type { SiteContactSettings } from "@/lib/site-settings"
 
-export function Footer() {
+export function Footer({
+  contact,
+  whatsappUrl,
+  phoneHref,
+}: {
+  contact: SiteContactSettings
+  whatsappUrl: string
+  phoneHref: string
+}) {
   return (
     <footer className="border-t border-white/10 bg-navy pt-16 pb-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -17,7 +20,7 @@ export function Footer() {
           <div>
             <div className="mb-4 flex items-center gap-3">
               <Image
-                src="/arab-academy-logo.jpg"
+                src="/logo.svg"
                 alt="Arab Pro Academy"
                 width={48}
                 height={48}
@@ -57,6 +60,22 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href="/privacy"
+                  className="text-sm text-gray-400 transition-colors hover:text-gold"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/terms"
+                  className="text-sm text-gray-400 transition-colors hover:text-gold"
+                >
+                  Terms
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -65,36 +84,36 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-gray-400">
               <li>
                 <a
-                  href={WHATSAPP_URL}
+                  href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-gold"
                 >
                   <MessageCircle size={14} className="text-teal" />
-                  {PHONE_DISPLAY}
+                  {contact.phoneDisplay}
                 </a>
               </li>
               <li>
                 <a
-                  href={PHONE_HREF}
+                  href={phoneHref}
                   className="flex items-center gap-2 hover:text-gold"
                 >
                   <Phone size={14} className="text-gold" />
-                  {PHONE_DISPLAY}
+                  {contact.phoneDisplay}
                 </a>
               </li>
               <li>
                 <a
-                  href={`mailto:${EMAIL}`}
+                  href={`mailto:${contact.email}`}
                   className="flex items-center gap-2 hover:text-gold"
                 >
                   <Mail size={14} className="text-gold" />
-                  {EMAIL}
+                  {contact.email}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin size={14} className="text-gold" />
-                Riyadh, Saudi Arabia
+                {contact.location}
               </li>
             </ul>
           </div>
@@ -104,7 +123,7 @@ export function Footer() {
           <p className="text-xs text-gray-500">
             © {new Date().getFullYear()} Arab Pro Academy. All rights reserved.
           </p>
-          <p className="text-sm text-gold/40" dir="rtl">
+          <p className="font-arabic text-sm text-gold/40" dir="rtl">
             أكاديمية العرب برو — تعلم العربية بثقة
           </p>
         </div>

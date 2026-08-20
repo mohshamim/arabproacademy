@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  EDITOR
+}
+
+enum LeadType {
+  CONTACT
+  ENROLL
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  INTERESTED
+  ENROLLED
+  LOST
+  ARCHIVED
+}
+
+enum LeadSource {
+  WEBSITE
+  WHATSAPP
+  INSTAGRAM
+  GOOGLE
+  REFERRAL
+  OTHER
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(EDITOR)
+  active       Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  assignedLeads Lead[]   @relation("LeadAssignee")
+}
+
+model Lead {
+  id         String     @id @default(cuid())
+  type       LeadType
+  status     LeadStatus @default(NEW)
+  source     LeadSource @default(WEBSITE)
+  name       String?
+  email      String?
+  phone      String?
+  interest   String?
+  message    String?    @db.Text
+  notes      String?    @db.Text
+  assigneeId String?
+  followUpAt DateTime?
+  payload    Json?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  assignee   AdminUser? @relation("LeadAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+
+  @@index([type, status])
+  @@index([createdAt])
+  @@index([assigneeId])
+  @@index([followUpAt])
+  @@index([source])
+}
+
+model PricingPackage {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  price            String
+  period           String
+  description      String
+  features         Json
+  cta              String
+  whatsappMessage  String   @db.Text
+  popular          Boolean  @default(false)
+  published        Boolean  @default(true)
+  sortOrder        Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model OnlineLevel {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  level            String
+  name             String
+  badgeColor       String   @default("teal")
+  monthlyPrice     String
+  fullPrice        String
+  features         Json
+  whatsappMessage  String   @db.Text
+  published        Boolean  @default(true)
+  sortOrder        Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  question  String   @db.Text
+  answer    String   @db.Text
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  initial   String
+  text      String   @db.Text
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  actorEmail String
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  summary    String   @db.Text
+  meta       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entityType, entityId])
+}
+
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  success   Boolean
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+}

@@ -2,9 +2,15 @@ import Image from "next/image"
 import { ChevronDown, MessageCircle, Star } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { STATS, WHATSAPP_URL } from "@/lib/content"
+import { STATS } from "@/lib/content"
 
-export function Hero() {
+export function Hero({
+  stats = STATS,
+  whatsappUrl,
+}: {
+  stats?: readonly { value: string; label: string }[]
+  whatsappUrl: string
+}) {
   return (
     <section className="arabic-pattern relative flex min-h-screen items-center justify-center overflow-hidden bg-navy">
       <div className="absolute top-0 right-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/2 rounded-full bg-gold/5 blur-3xl" />
@@ -14,7 +20,7 @@ export function Hero() {
         <div className="animate-fade-up mb-8 flex justify-center">
           <div className="relative">
             <Image
-              src="/arab-academy-logo.jpg"
+              src="/logo.svg"
               alt="Arab Pro Academy"
               width={112}
               height={112}
@@ -50,7 +56,7 @@ export function Hero() {
         </p>
 
         <p
-          className="animate-fade-up delay-300 mb-10 text-2xl font-light tracking-wider text-gold"
+          className="font-arabic animate-fade-up delay-300 mb-10 text-2xl font-medium tracking-wider text-gold"
           dir="rtl"
         >
           أكاديمية العرب برو — ابدأ رحلتك اليوم
@@ -61,7 +67,7 @@ export function Hero() {
             <a href="#pricing">View Pricing & Enroll</a>
           </Button>
           <Button asChild variant="whatsapp" size="lg" className="w-full sm:w-auto">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <MessageCircle size={18} />
               WhatsApp Us
             </a>
@@ -69,7 +75,7 @@ export function Hero() {
         </div>
 
         <div className="animate-fade-up delay-500 flex flex-wrap items-center justify-center gap-8 text-center">
-          {STATS.map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.label}>
               <div className="font-display text-2xl font-black text-gold">
                 {stat.value}

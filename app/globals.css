@@ -60,6 +60,7 @@
   --color-cream: var(--cream);
   --font-sans: var(--font-inter);
   --font-display: var(--font-playfair);
+  --font-arabic: var(--font-naskh);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -81,6 +82,10 @@ h2,
 h3,
 h4 {
   font-family: var(--font-playfair), Georgia, serif;
+}
+
+.font-arabic {
+  font-family: var(--font-naskh), "Noto Naskh Arabic", serif;
 }
 
 .gold-gradient {

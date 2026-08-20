@@ -1,8 +1,13 @@
 import { Star } from "lucide-react"
 
 import { TESTIMONIALS } from "@/lib/content"
+import type { PublicTestimonial } from "@/lib/site-data"
 
-export function TestimonialsSection() {
+export function TestimonialsSection({
+  testimonials = TESTIMONIALS.map((t) => ({ ...t })),
+}: {
+  testimonials?: PublicTestimonial[]
+}) {
   return (
     <section className="arabic-pattern relative overflow-hidden bg-navy py-24">
       <div className="absolute top-1/4 left-0 h-96 w-96 rounded-full bg-teal/5 blur-3xl" />
@@ -28,12 +33,12 @@ export function TestimonialsSection() {
                 />
               ))}
             </span>
-            4.9/5 from 200+ verified reviews
+            4.9/5 from enrolled students in Riyadh
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
+          {testimonials.map((t) => (
             <div
               key={t.name}
               className="rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-300 hover:border-gold/30 hover:bg-white/10"

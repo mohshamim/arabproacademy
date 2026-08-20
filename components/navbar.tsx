@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/button"
 import { NAV_LINKS, PHONE_DISPLAY, PHONE_HREF } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
-export function Navbar() {
+export function Navbar({
+  phoneDisplay = PHONE_DISPLAY,
+  phoneHref = PHONE_HREF,
+}: {
+  phoneDisplay?: string
+  phoneHref?: string
+}) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -29,7 +35,7 @@ export function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#" className="group flex items-center gap-3">
           <Image
-            src="/arab-academy-logo.jpg"
+            src="/logo.svg"
             alt="Arab Pro Academy"
             width={48}
             height={48}
@@ -83,10 +89,10 @@ export function Navbar() {
             </a>
           ))}
           <a
-            href={PHONE_HREF}
+            href={phoneHref}
             className="flex items-center gap-2 text-sm font-medium text-gold"
           >
-            <Phone size={14} /> {PHONE_DISPLAY}
+            <Phone size={14} /> {phoneDisplay}
           </a>
           <Button asChild size="sm" className="w-full">
             <a href="#pricing" onClick={() => setOpen(false)}>

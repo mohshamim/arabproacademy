@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
+import { Inter, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google"
 
 import "./globals.css"
 
@@ -13,6 +13,12 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   weight: ["400", "600", "700", "900"],
+})
+
+const notoNaskh = Noto_Naskh_Arabic({
+  variable: "--font-naskh",
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
@@ -33,7 +39,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${playfair.variable} ${notoNaskh.variable} h-full`}
+    >
       <body className="min-h-full font-sans antialiased">{children}</body>
     </html>
   )

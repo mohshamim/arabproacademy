@@ -3,9 +3,11 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`
 export const PHONE_DISPLAY = "+966574915561"
 export const PHONE_HREF = "tel:+966574915561"
 export const EMAIL = "arabpacademy@gmail.com"
+export const LOGO_SRC = "/logo.svg"
 
-export function whatsappEnrollUrl(message: string) {
-  return `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`
+export function whatsappEnrollUrl(message: string, number = WHATSAPP_NUMBER) {
+  const digits = number.replace(/\D/g, "")
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`
 }
 
 export const NAV_LINKS = [
@@ -168,7 +170,7 @@ export const PRICING = [
     name: "3-Month Package",
     price: "1,899",
     period: "SAR / 3 months",
-    desc: "Complete fluency journey — save 968 SAR",
+    desc: "Complete fluency journey — save 798 SAR",
     features: [
       "3 classes per week",
       "Full 3-month structured program",

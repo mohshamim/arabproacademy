@@ -1,10 +1,17 @@
 import { ArrowUpRight, Check, Star } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { PRICING, whatsappEnrollUrl } from "@/lib/content"
+import { PRICING, WHATSAPP_NUMBER, whatsappEnrollUrl } from "@/lib/content"
 import { cn } from "@/lib/utils"
+import type { PublicPricing } from "@/lib/site-data"
 
-export function PricingSection() {
+export function PricingSection({
+  plans = PRICING as unknown as PublicPricing[],
+  whatsappNumber = WHATSAPP_NUMBER,
+}: {
+  plans?: PublicPricing[]
+  whatsappNumber?: string
+}) {
   return (
     <section id="pricing" className="bg-cream py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -21,12 +28,12 @@ export function PricingSection() {
           <p className="mx-auto max-w-xl text-base leading-relaxed text-gray-500">
             Simple, transparent pricing. Most students choose the 3-month
             package — it&apos;s the complete journey to confident spoken Arabic
-            and saves you 968 SAR.
+            and saves you 798 SAR.
           </p>
         </div>
 
         <div className="mx-auto grid max-w-4xl items-center gap-8 md:grid-cols-2">
-          {PRICING.map((plan) => (
+          {plans.map((plan) => (
             <div
               key={plan.name}
               className={cn(
@@ -82,7 +89,7 @@ export function PricingSection() {
                 </div>
                 {plan.popular && (
                   <p className="mt-2 flex items-center gap-1 text-xs font-semibold text-teal">
-                    <Star size={12} fill="currentColor" /> Best value — save 968
+                    <Star size={12} fill="currentColor" /> Best value — save 798
                     SAR vs monthly
                   </p>
                 )}
@@ -122,7 +129,7 @@ export function PricingSection() {
                 className="w-full"
               >
                 <a
-                  href={whatsappEnrollUrl(plan.message)}
+                  href={whatsappEnrollUrl(plan.message, whatsappNumber)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

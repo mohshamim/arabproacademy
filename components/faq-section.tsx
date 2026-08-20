@@ -7,8 +7,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { FAQS } from "@/lib/content"
+import type { PublicFaq } from "@/lib/site-data"
 
-export function FaqSection() {
+export function FaqSection({
+  faqs = FAQS.map((f) => ({ q: f.q, a: f.a })),
+}: {
+  faqs?: PublicFaq[]
+}) {
   return (
     <section id="faq" className="bg-white py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
@@ -25,7 +30,7 @@ export function FaqSection() {
         </div>
 
         <Accordion type="single" collapsible className="w-full">
-          {FAQS.map((faq, index) => (
+          {faqs.map((faq, index) => (
             <AccordionItem key={faq.q} value={`item-${index}`}>
               <AccordionTrigger>{faq.q}</AccordionTrigger>
               <AccordionContent>{faq.a}</AccordionContent>

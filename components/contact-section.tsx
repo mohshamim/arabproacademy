@@ -6,31 +6,43 @@ import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  EMAIL,
-  PHONE_DISPLAY,
-  PHONE_HREF,
-  WHATSAPP_URL,
-  whatsappEnrollUrl,
-} from "@/lib/content"
+import { submitCallbackLead } from "@/app/actions/leads"
+import type { SiteContactSettings } from "@/lib/site-settings"
 
-const INTEREST_OPTIONS = [
-  { value: "3-month", label: "3-Month Package (1,899 SAR)" },
-  { value: "monthly", label: "Monthly Package (899 SAR)" },
-  { value: "question", label: "Just have a question" },
-]
-
-export function ContactSection() {
+export function ContactSection({
+  contact,
+  whatsappUrl,
+  phoneHref,
+  interestOptions,
+}: {
+  contact: SiteContactSettings
+  whatsappUrl: string
+  phoneHref: string
+  interestOptions: { value: string; label: string }[]
+}) {
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
-  const [interest, setInterest] = useState(INTEREST_OPTIONS[0].value)
+  const [interest, setInterest] = useState(interestOptions[0]?.value ?? "")
+  const [pending, setPending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setPending(true)
+    setError(null)
     const interestLabel =
-      INTEREST_OPTIONS.find((o) => o.value === interest)?.label ?? interest
-    const message = `Hi Arab Pro Academy! My name is ${name}. Phone: ${phone}. Interested in: ${interestLabel}. Please call me back.`
-    window.open(whatsappEnrollUrl(message), "_blank", "noopener,noreferrer")
+      interestOptions.find((o) => o.value === interest)?.label ?? interest
+    const result = await submitCallbackLead({
+      name,
+      phone,
+      interest: interestLabel,
+    })
+    setPending(false)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
+    window.open(result.whatsappUrl, "_blank", "noopener,noreferrer")
   }
 
   return (
@@ -55,7 +67,7 @@ export function ContactSection() {
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="space-y-4">
             <a
-              href={WHATSAPP_URL}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-start gap-4 rounded-2xl border border-gray-200 bg-white p-5 transition-all hover:border-teal/40 hover:shadow-lg"
@@ -65,7 +77,7 @@ export function ContactSection() {
               </div>
               <div>
                 <div className="font-semibold text-navy">WhatsApp</div>
-                <div className="text-gold">{PHONE_DISPLAY}</div>
+                <div className="text-gold">{contact.phoneDisplay}</div>
                 <div className="text-sm text-gray-500">
                   Fastest response — chat with us now
                 </div>
@@ -73,7 +85,7 @@ export function ContactSection() {
             </a>
 
             <a
-              href={PHONE_HREF}
+              href={phoneHref}
               className="flex items-start gap-4 rounded-2xl border border-gray-200 bg-white p-5 transition-all hover:border-gold/40 hover:shadow-lg"
             >
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold">
@@ -81,7 +93,7 @@ export function ContactSection() {
               </div>
               <div>
                 <div className="font-semibold text-navy">Call Us</div>
-                <div className="text-gold">{PHONE_DISPLAY}</div>
+                <div className="text-gold">{contact.phoneDisplay}</div>
                 <div className="text-sm text-gray-500">
                   Speak with our admissions team
                 </div>
@@ -89,7 +101,7 @@ export function ContactSection() {
             </a>
 
             <a
-              href={`mailto:${EMAIL}`}
+              href={`mailto:${contact.email}`}
               className="flex items-start gap-4 rounded-2xl border border-gray-200 bg-white p-5 transition-all hover:border-gold/40 hover:shadow-lg"
             >
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-navy/10 text-navy">
@@ -97,7 +109,7 @@ export function ContactSection() {
               </div>
               <div>
                 <div className="font-semibold text-navy">Email</div>
-                <div className="break-all text-gold">{EMAIL}</div>
+                <div className="break-all text-gold">{contact.email}</div>
                 <div className="text-sm text-gray-500">
                   We reply within 24 hours
                 </div>
@@ -110,7 +122,7 @@ export function ContactSection() {
               </div>
               <div>
                 <div className="font-semibold text-navy">Location</div>
-                <div className="text-navy">Riyadh, Saudi Arabia</div>
+                <div className="text-navy">{contact.location}</div>
                 <div className="text-sm text-gray-500">
                   In-person & online classes available
                 </div>
@@ -159,16 +171,19 @@ export function ContactSection() {
                   onChange={(e) => setInterest(e.target.value)}
                   className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-gold"
                 >
-                  {INTEREST_OPTIONS.map((opt) => (
+                  {interestOptions.map((opt) => (
                     <option key={opt.value} value={opt.value} className="bg-navy">
                       {opt.label}
                     </option>
                   ))}
                 </select>
               </div>
-              <Button type="submit" size="lg" className="mt-2 w-full">
+              {error ? (
+                <p className="text-sm text-red-300">{error}</p>
+              ) : null}
+              <Button type="submit" size="lg" className="mt-2 w-full" disabled={pending}>
                 <Send size={18} />
-                Send via WhatsApp
+                {pending ? "Saving…" : "Send via WhatsApp"}
               </Button>
               <p className="text-center text-xs text-gray-500">
                 No spam. We only call to discuss your enrollment.
