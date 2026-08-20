@@ -24,6 +24,14 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    title: "Teach",
+    items: [
+      { href: "/admin/courses", label: "Courses" },
+      { href: "/admin/batches", label: "Batches" },
+      { href: "/admin/students", label: "Students" },
+    ],
+  },
+  {
     title: "Content",
     items: [
       { href: "/admin/pricing", label: "Pricing" },

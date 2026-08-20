@@ -2,7 +2,10 @@ import { notFound } from "next/navigation"
 import { prismaReady } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { AdminPageHeader, adminInputClass } from "@/components/admin/ui"
-import { updateLeadDetails } from "@/app/admin/(dashboard)/actions"
+import {
+  enrollLeadAsStudent,
+  updateLeadDetails,
+} from "@/app/admin/(dashboard)/actions"
 
 const LEAD_STATUSES = [
   "NEW",
@@ -40,6 +43,24 @@ export default async function LeadDetailPage({
   ])
   if (!lead) notFound()
 
+  let batches: { id: string; name: string; course: { name: string } }[] = []
+  let enrolledStudents: { id: string; name: string }[] = []
+  try {
+    ;[batches, enrolledStudents] = await Promise.all([
+      prisma.batch.findMany({
+        where: { status: { in: ["UPCOMING", "RUNNING"] } },
+        orderBy: { startDate: "asc" },
+        include: { course: { select: { name: true } } },
+      }),
+      prisma.student.findMany({
+        where: { leadId: id },
+        select: { id: true, name: true },
+      }),
+    ])
+  } catch {
+    /* Course tables not imported yet */
+  }
+
   const phoneDigits = (lead.phone || "").replace(/\D/g, "")
   const whatsappHref = phoneDigits
     ? `https://wa.me/${phoneDigits}?text=${encodeURIComponent(
@@ -64,6 +85,51 @@ export default async function LeadDetailPage({
           WhatsApp this lead
         </a>
       ) : null}
+
+      {enrolledStudents.length > 0 ? (
+        <p className="text-sm text-emerald-800">
+          Already enrolled as student — open from Students.
+        </p>
+      ) : (
+        <form
+          action={enrollLeadAsStudent}
+          className="space-y-3 rounded-2xl border border-[#e5e7eb] bg-white p-5"
+        >
+          <h2 className="text-sm font-semibold">Enroll as student</h2>
+          <input type="hidden" name="leadId" value={lead.id} />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <input
+              name="name"
+              defaultValue={lead.name || ""}
+              placeholder="Name"
+              className={adminInputClass}
+            />
+            <input
+              name="phone"
+              defaultValue={lead.phone || ""}
+              required
+              placeholder="Phone"
+              className={adminInputClass}
+            />
+            <input name="level" placeholder="Beginner / Intermediate" className={adminInputClass} />
+            <input name="paymentNote" placeholder="Paid / pending" className={adminInputClass} />
+            <select name="batchId" className={adminInputClass}>
+              <option value="">Assign batch later</option>
+              {batches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name} — {b.course.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="cursor-pointer rounded-xl bg-[#0d1b2a] px-4 py-2 text-sm font-semibold text-white"
+          >
+            Enroll
+          </button>
+        </form>
+      )}
 
       <form
         action={updateLeadDetails}

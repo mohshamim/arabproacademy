@@ -65,12 +65,111 @@ model Lead {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   assignee   AdminUser? @relation("LeadAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  students   Student[]
 
   @@index([type, status])
   @@index([createdAt])
   @@index([assigneeId])
   @@index([followUpAt])
   @@index([source])
+}
+
+enum CourseKind {
+  IN_PERSON
+  ONLINE
+}
+
+enum BatchMode {
+  IN_PERSON
+  ONLINE
+  HYBRID
+}
+
+enum BatchStatus {
+  UPCOMING
+  RUNNING
+  COMPLETED
+}
+
+enum StudentStatus {
+  ACTIVE
+  COMPLETED
+  PAUSED
+  DROPPED
+}
+
+model Course {
+  id            String       @id @default(cuid())
+  slug          String       @unique
+  name          String
+  kind          CourseKind
+  description   String       @db.Text
+  durationLabel String
+  published     Boolean      @default(true)
+  sortOrder     Int          @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  weeks         CourseWeek[]
+  batches       Batch[]
+}
+
+model CourseWeek {
+  id          String  @id @default(cuid())
+  courseId    String
+  weekNumber  Int
+  title       String
+  outcomes    String  @db.Text
+  vocabulary  String  @db.Text
+  activity    String  @db.Text
+  homework    String  @db.Text
+  materialUrl String?
+  course      Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, weekNumber])
+  @@index([courseId])
+}
+
+model Batch {
+  id         String      @id @default(cuid())
+  courseId   String
+  name       String
+  mode       BatchMode   @default(IN_PERSON)
+  startDate  DateTime?
+  endDate    DateTime?
+  daysLabel  String      @default("")
+  capacity   Int         @default(12)
+  status     BatchStatus @default(UPCOMING)
+  notes      String?     @db.Text
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  course     Course      @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  students   Student[]
+
+  @@index([courseId])
+  @@index([status])
+}
+
+model Student {
+  id          String         @id @default(cuid())
+  name        String
+  phone       String
+  email       String?
+  level       String?
+  status      StudentStatus  @default(ACTIVE)
+  paymentNote String?
+  notes       String?        @db.Text
+  leadId      String?
+  batchId     String?
+  enrolledAt  DateTime       @default(now())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  lead        Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  batch       Batch?         @relation(fields: [batchId], references: [id], onDelete: SetNull)
+
+  @@index([batchId])
+  @@index([leadId])
+  @@index([status])
+  @@index([phone])
 }
 
 model PricingPackage {

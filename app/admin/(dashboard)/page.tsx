@@ -7,18 +7,23 @@ import Link from "next/link"
 export default async function AdminOverviewPage() {
   const session = await requireAdmin()
 
-  let stats = { leadsNew: 0, leadsTotal: 0, enrolled: 0, faqs: 0 }
+  let stats = {
+    leadsNew: 0,
+    leadsTotal: 0,
+    students: 0,
+    batches: 0,
+  }
 
   if (hasDatabaseUrl()) {
     try {
       const prisma = await prismaReady()
-      const [leadsNew, leadsTotal, enrolled, faqs] = await Promise.all([
+      const [leadsNew, leadsTotal, students, batches] = await Promise.all([
         prisma.lead.count({ where: { status: "NEW" } }),
         prisma.lead.count(),
-        prisma.lead.count({ where: { status: "ENROLLED" } }),
-        prisma.faqItem.count({ where: { published: true } }),
+        prisma.student.count({ where: { status: "ACTIVE" } }).catch(() => 0),
+        prisma.batch.count({ where: { status: "RUNNING" } }).catch(() => 0),
       ])
-      stats = { leadsNew, leadsTotal, enrolled, faqs }
+      stats = { leadsNew, leadsTotal, students, batches }
     } catch (err) {
       console.error("[admin overview]", err)
     }
@@ -50,11 +55,15 @@ export default async function AdminOverviewPage() {
           href="/admin/leads"
         />
         <AdminStatCard
-          label="Enrolled"
-          value={stats.enrolled}
-          href="/admin/leads?status=ENROLLED"
+          label="Active students"
+          value={stats.students}
+          href="/admin/students"
         />
-        <AdminStatCard label="Published FAQ" value={stats.faqs} href="/admin/faq" />
+        <AdminStatCard
+          label="Running batches"
+          value={stats.batches}
+          href="/admin/batches"
+        />
       </div>
 
       <div className="flex flex-wrap gap-3 text-sm">
@@ -65,14 +74,20 @@ export default async function AdminOverviewPage() {
           Open lead inbox
         </Link>
         <Link
-          href="/admin/pricing"
+          href="/admin/courses"
           className="rounded-xl border border-[#e5e7eb] bg-white px-4 py-2 font-semibold text-[#374151]"
         >
-          Edit pricing
+          Courses & syllabus
         </Link>
       </div>
 
       {isSuperAdmin(session.user.role) ? <SeedWebsiteButton /> : null}
+
+      <p className="text-xs text-[#6B7280]">
+        New courses tables: import{" "}
+        <code>prisma/hostinger-courses-upgrade.sql</code> in phpMyAdmin, then
+        Seed again to load the 12-week and 8-week syllabi.
+      </p>
     </div>
   )
 }

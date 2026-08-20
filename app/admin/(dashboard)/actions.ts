@@ -257,3 +257,178 @@ export async function deleteAdminUser(formData: FormData) {
   await prisma.adminUser.delete({ where: { id } })
   revalidatePath("/admin/admins")
 }
+
+function dateOrNull(value: string) {
+  if (!value) return null
+  const d = new Date(value)
+  return Number.isNaN(d.getTime()) ? null : d
+}
+
+export async function upsertCourse(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  const id = str(formData, "id")
+  const data = {
+    slug: str(formData, "slug"),
+    name: str(formData, "name"),
+    kind: str(formData, "kind") as "IN_PERSON" | "ONLINE",
+    description: str(formData, "description"),
+    durationLabel: str(formData, "durationLabel"),
+    published: bool(formData, "published"),
+    sortOrder: Number(str(formData, "sortOrder") || 0),
+  }
+  if (id) {
+    await prisma.course.update({ where: { id }, data })
+    revalidatePath("/admin/courses")
+    revalidatePath(`/admin/courses/${id}`)
+    return
+  }
+  const created = await prisma.course.create({ data })
+  revalidatePath("/admin/courses")
+  redirect(`/admin/courses/${created.id}`)
+}
+
+export async function deleteCourse(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  await prisma.course.delete({ where: { id: str(formData, "id") } })
+  revalidatePath("/admin/courses")
+  redirect("/admin/courses")
+}
+
+export async function upsertCourseWeek(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  const id = str(formData, "id")
+  const courseId = str(formData, "courseId")
+  const data = {
+    courseId,
+    weekNumber: Number(str(formData, "weekNumber") || 1),
+    title: str(formData, "title"),
+    outcomes: str(formData, "outcomes"),
+    vocabulary: str(formData, "vocabulary"),
+    activity: str(formData, "activity"),
+    homework: str(formData, "homework"),
+    materialUrl: str(formData, "materialUrl") || null,
+  }
+  if (id) {
+    await prisma.courseWeek.update({ where: { id }, data })
+  } else {
+    await prisma.courseWeek.create({ data })
+  }
+  revalidatePath(`/admin/courses/${courseId}`)
+}
+
+export async function deleteCourseWeek(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  const courseId = str(formData, "courseId")
+  await prisma.courseWeek.delete({ where: { id: str(formData, "id") } })
+  revalidatePath(`/admin/courses/${courseId}`)
+}
+
+export async function upsertBatch(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  const id = str(formData, "id")
+  const data = {
+    courseId: str(formData, "courseId"),
+    name: str(formData, "name"),
+    mode: str(formData, "mode") as "IN_PERSON" | "ONLINE" | "HYBRID",
+    startDate: dateOrNull(str(formData, "startDate")),
+    endDate: dateOrNull(str(formData, "endDate")),
+    daysLabel: str(formData, "daysLabel"),
+    capacity: Number(str(formData, "capacity") || 12),
+    status: str(formData, "status") as "UPCOMING" | "RUNNING" | "COMPLETED",
+    notes: str(formData, "notes") || null,
+  }
+  if (id) {
+    await prisma.batch.update({ where: { id }, data })
+    revalidatePath("/admin/batches")
+    revalidatePath(`/admin/batches/${id}`)
+    return
+  }
+  const created = await prisma.batch.create({ data })
+  revalidatePath("/admin/batches")
+  redirect(`/admin/batches/${created.id}`)
+}
+
+export async function deleteBatch(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  await prisma.batch.delete({ where: { id: str(formData, "id") } })
+  revalidatePath("/admin/batches")
+  redirect("/admin/batches")
+}
+
+export async function upsertStudent(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  const id = str(formData, "id")
+  const data = {
+    name: str(formData, "name"),
+    phone: str(formData, "phone"),
+    email: str(formData, "email") || null,
+    level: str(formData, "level") || null,
+    status: str(formData, "status") as
+      | "ACTIVE"
+      | "COMPLETED"
+      | "PAUSED"
+      | "DROPPED",
+    paymentNote: str(formData, "paymentNote") || null,
+    notes: str(formData, "notes") || null,
+    batchId: str(formData, "batchId") || null,
+  }
+  if (id) {
+    await prisma.student.update({ where: { id }, data })
+    revalidatePath("/admin/students")
+    revalidatePath(`/admin/students/${id}`)
+    revalidatePath("/admin/batches")
+    return
+  }
+  const created = await prisma.student.create({ data })
+  revalidatePath("/admin/students")
+  redirect(`/admin/students/${created.id}`)
+}
+
+export async function deleteStudent(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  await prisma.student.delete({ where: { id: str(formData, "id") } })
+  revalidatePath("/admin/students")
+  redirect("/admin/students")
+}
+
+export async function enrollLeadAsStudent(formData: FormData) {
+  await requireAdmin()
+  const prisma = await prismaReady()
+  const leadId = str(formData, "leadId")
+  const lead = await prisma.lead.findUnique({ where: { id: leadId } })
+  if (!lead) return
+  const name = str(formData, "name") || lead.name || "Student"
+  const phone = str(formData, "phone") || lead.phone || ""
+  if (!phone) {
+    throw new Error("Phone is required to enroll")
+  }
+  const student = await prisma.student.create({
+    data: {
+      name,
+      phone,
+      email: lead.email,
+      level: str(formData, "level") || null,
+      paymentNote: str(formData, "paymentNote") || null,
+      batchId: str(formData, "batchId") || null,
+      leadId,
+      notes: lead.interest ? `From lead: ${lead.interest}` : null,
+    },
+  })
+  await prisma.lead.update({
+    where: { id: leadId },
+    data: { status: "ENROLLED" },
+  })
+  revalidatePath("/admin/leads")
+  revalidatePath(`/admin/leads/${leadId}`)
+  revalidatePath("/admin/students")
+  revalidatePath("/admin")
+  redirect(`/admin/students/${student.id}`)
+}

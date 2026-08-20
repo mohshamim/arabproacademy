@@ -1,74 +1,141 @@
-# Hostinger deploy (same pattern as BIMSavvy)
+# Hostinger deploy — arabproacademy.com
 
-This app is Next.js + Prisma + MySQL + Auth.js — the same stack that already runs on your Hostinger Node hosting.
+Same stack as BIMSavvy (Next.js + Prisma + MySQL + Auth.js).
+GitHub: https://github.com/mohshamim/arabproacademy (branch `main`)
 
-## 1. Create the database
+Hostinger account prefix: `u506363420_`
 
-In hPanel → **MySQL Databases**:
+## A) Create MySQL database
 
-- Database name, user, and password (Hostinger prefixes them, e.g. `u123_arabpro`)
-- Host is usually `localhost`
+hPanel → **arabproacademy.com** → **Databases** → **Management**
 
-## 2. Import tables
+Fill **Create a New MySQL Database And Database User**:
 
-phpMyAdmin → select the database → **Import** `prisma/hostinger-bootstrap.sql`.
+| Field | Type this (prefix is automatic) | Full name Hostinger will use |
+| --- | --- | --- |
+| Database name | `arabpro` | `u506363420_arabpro` |
+| MySQL username | `arabpro` | `u506363420_arabpro` |
+| Password | generate a strong one | save it in a notes file |
 
-(Alternatively SSH: `npx prisma migrate deploy` after env is set.)
+Password rules (learned from BIMSavvy):
 
-## 3. Node.js environment variables
+- Use letters + numbers only
+- Avoid `#` `@` `%` `&` in the password (they break connection URLs)
 
-Set these in Hostinger Node.js app env (same style as BIMSavvy):
+Click **Create**. Leave this tab open until you have copied:
+
+- Database: `u506363420_arabpro`
+- User: `u506363420_arabpro`
+- Password: (the one you just set)
+- Host: `localhost`
+
+## B) Import tables (phpMyAdmin)
+
+1. Sidebar → **Databases** → **phpMyAdmin**
+2. Left column: click `u506363420_arabpro`
+3. Top tab **Import**
+4. Choose file from this project:
+
+   `D:\Shamim\arabproacademy\prisma\hostinger-bootstrap.sql`
+
+5. Click **Import** / **Go**
+6. Refresh the left list. You should see tables including `AdminUser`, `Lead`, `FaqItem`, `PricingPackage`, `SiteSetting`.
+
+If Import errors on foreign keys, ignore the commented `ALTER TABLE` line — tables still work.
+
+## C) Node.js website (same as BIMSavvy)
+
+hPanel → **arabproacademy.com** → **Websites** → **Node.js** (or **Deploy** / Git)
+
+| Setting | Value |
+| --- | --- |
+| Repository | `mohshamim/arabproacademy` |
+| Branch | `main` |
+| Root directory | empty / `.` (package.json is at repo root) |
+| Framework | Next.js |
+| Node.js | **20.x** |
+| Install command | `npm install` |
+| Build command | `npm run build` |
+| Start command | `npm run start` |
+| Output directory | **LEAVE EMPTY** — do not set `.next` |
+
+## D) Environment variables
+
+hPanel → Node.js app → **Environment variables**.
+
+Add these (no quotes). **Do not create `DATABASE_URL`.**
 
 ```
-MYSQL_USER=u123_arabpro
-MYSQL_PASSWORD=********
+MYSQL_USER=u506363420_arabpro
+MYSQL_PASSWORD=paste-the-password-you-created
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
-MYSQL_DATABASE=u123_arabpro
+MYSQL_DATABASE=u506363420_arabpro
 
-AUTH_SECRET=<run: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))">
-AUTH_URL=https://your-domain.com
+AUTH_SECRET=paste-generated-secret
+AUTH_URL=https://arabproacademy.com
 
-ADMIN_EMAIL=admin@your-domain.com
-ADMIN_PASSWORD=a-strong-password
+ADMIN_EMAIL=admin@arabproacademy.com
+ADMIN_PASSWORD=choose-a-strong-admin-password
 ADMIN_NAME=Academy Admin
 ```
 
-Do **not** put `#`, `@`, or `%` into a single `DATABASE_URL` string — use the `MYSQL_*` parts instead (the app builds the URL and encodes the password).
+Save → **Apply** / **Restart**.
 
-## 4. Build & start (Hostinger)
+If login later says database auth failed, also try:
 
-- **Node version:** 20.x (set in hPanel; `package.json` engines matches this)
-- **Build command:** `npm run build`  (runs `prisma generate && next build`)
-- **Start command:** `npm run start`  (`next start`)
+```
+MYSQL_HOST=127.0.0.1
+```
 
-## 5. Create the first admin + website content
+and/or hPanel → Databases → **Remote MySQL** → Any Host, then set `MYSQL_HOST` to the hostname shown there (often `auth-db….hstgr.io`).
 
-On the server after the first successful start:
+## E) Deploy
+
+Click **Deploy** / **Rebuild**. Wait until status is **Running** (not Building).
+
+Open in a **new Incognito** window:
+
+- https://arabproacademy.com
+- https://arabproacademy.com/admin/login
+
+If the page has no CSS after a redeploy: purge CDN/cache in hPanel, confirm Output directory is empty, then Incognito again.
+
+## F) Create the first admin (seed)
+
+The SQL file creates **tables only**, not the login user. You need seed once.
+
+**Option 1 — Hostinger SSH** (same account as BIMSavvy):
+
+```
+ssh -p 65002 u506363420@217.21.90.15
+```
+
+Find the arabproacademy app folder (look for `package.json` + `prisma/`), then:
 
 ```
 npm run db:seed
 ```
 
-This upserts SUPER_ADMIN from `ADMIN_EMAIL` / `ADMIN_PASSWORD` and copies pricing, FAQ, testimonials, and online levels into MySQL.
+This creates SUPER_ADMIN from `ADMIN_EMAIL` / `ADMIN_PASSWORD` and copies pricing, FAQ, testimonials.
 
-Then open `https://your-domain.com/admin/login`.
+**Option 2 — if SSH is painful:** after the app is running with env vars, you can run seed from Hostinger **Node.js → terminal / SSH**, or ask me to add a one-time bootstrap login. Do not skip seed — `/admin/login` will fail until an `AdminUser` row exists.
 
-If seed via CLI is awkward, log in after a manual admin insert, then use **Admin → Overview → Seed website content**.
+## G) Login
 
-## 6. After each redeploy
+https://arabproacademy.com/admin/login
 
-Hostinger CDN can serve stale HTML that points at old `/_next` chunks. This project already sends `no-store` on HTML (same as BIMSavvy). If the site looks broken after upload, purge cache / hard-refresh.
+Email: the `ADMIN_EMAIL` you set  
+Password: the `ADMIN_PASSWORD` you set
 
-## Local development
+Then: **Overview → Seed website content** if FAQ/pricing are empty.
 
-Copy `.env.example` to `.env.local`, fill MySQL (local or remote Hostinger), then:
+## H) Courses / batches / students (after first go-live)
 
-```
-npm install
-npx prisma migrate deploy
-npm run db:seed
-npm run dev
-```
+Import in phpMyAdmin (does not wipe existing tables):
 
-The public site still renders from hardcoded fallbacks if MySQL is not configured. Admin login requires MySQL.
+`D:\Shamim\arabproacademy\prisma\hostinger-courses-upgrade.sql`
+
+Redeploy the latest GitHub commit, then in admin click **Seed content now**. That loads the 12-week in-person syllabus and both 8-week online syllabi.
+
+Change the admin password after first login (create a second Super Admin, then stop using the env default).

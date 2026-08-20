@@ -12,7 +12,7 @@ export function SeedWebsiteButton() {
   async function onClick() {
     if (pending) return
     const ok = window.confirm(
-      "Load current website content (pricing, FAQ, testimonials) into MySQL? Safe to run once.",
+      "Load website copy plus course syllabi into MySQL? Safe to run again — it will not wipe students.",
     )
     if (!ok) return
 
@@ -30,7 +30,7 @@ export function SeedWebsiteButton() {
       }
       const r = data.result
       setMessage(
-        `Done — pricing ${r.pricing}, online ${r.online}, testimonials ${r.testimonials}, FAQ ${r.faqs}.`,
+        `Done — courses ${r.courses ?? 0}, weeks ${r.weeks ?? 0}, pricing ${r.pricing}, FAQ ${r.faqs}.`,
       )
       router.refresh()
     } catch (err) {
@@ -46,8 +46,8 @@ export function SeedWebsiteButton() {
         Seed website content
       </h2>
       <p className="mt-1 text-sm text-[#6B7280]">
-        Copies the public-site copy into MySQL so you can edit it here. Does not
-        change page design. Super Admin only.
+        Copies pricing, FAQ, testimonials, and spoken-Arabic week syllabi into
+        MySQL. Does not change the public page design. Super Admin only.
       </p>
       <button
         type="button"
