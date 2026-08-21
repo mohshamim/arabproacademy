@@ -104,6 +104,12 @@ export async function getPublicContent() {
 
       if (dbFaqs.length) {
         faqs = dbFaqs.map((f) => ({ q: f.question, a: f.answer }))
+        const have = new Set(faqs.map((f) => f.q.toLowerCase()))
+        for (const f of FAQS) {
+          if (!have.has(f.q.toLowerCase())) {
+            faqs.push({ q: f.q, a: f.a })
+          }
+        }
       }
       if (dbTestimonials.length) {
         testimonials = dbTestimonials.map((t) => ({

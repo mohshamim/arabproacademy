@@ -1,28 +1,33 @@
 "use client"
 
+import { usePathname } from "next/navigation"
 import { useTransition } from "react"
 import { setLocale } from "@/app/actions/locale"
 import type { Locale } from "@/lib/locale"
+import type { Theme } from "@/lib/theme"
 import { cn } from "@/lib/utils"
 
 export function LanguageSwitch({
   locale,
+  theme = "dark",
   variant = "header",
 }: {
   locale: Locale
+  theme?: Theme
   variant?: "header" | "float"
 }) {
   const [pending, start] = useTransition()
+  const pathname = usePathname() || "/"
 
   function choose(next: Locale) {
     if (next === locale || pending) return
-    start(() => setLocale(next))
+    start(() => setLocale(next, pathname))
   }
 
   if (variant === "float") {
     return (
       <div
-        className="fixed start-5 bottom-5 z-50 flex lg:hidden"
+        className="float-safe fixed start-4 z-50 flex lg:hidden"
         role="group"
         aria-label={locale === "ar" ? "تغيير اللغة" : "Switch language"}
       >
@@ -54,7 +59,10 @@ export function LanguageSwitch({
 
   return (
     <div
-      className="inline-flex items-center rounded-full border border-gold/40 bg-white/5 p-0.5 shadow-inner shadow-black/20"
+      className={cn(
+        "inline-flex items-center rounded-full border border-gold/40 p-0.5 shadow-inner shadow-black/20",
+        theme === "light" ? "bg-navy/5" : "bg-white/5",
+      )}
       role="group"
       aria-label={locale === "ar" ? "تغيير اللغة" : "Switch language"}
     >
@@ -66,7 +74,9 @@ export function LanguageSwitch({
           "rounded-full px-3 py-1.5 text-[11px] font-bold tracking-wider transition",
           locale === "en"
             ? "bg-gold text-navy shadow-sm"
-            : "text-white/70 hover:text-gold",
+            : theme === "light"
+              ? "text-navy/55 hover:text-gold"
+              : "text-white/70 hover:text-gold",
         )}
       >
         EN
@@ -79,7 +89,9 @@ export function LanguageSwitch({
           "font-kufi rounded-full px-3 py-1.5 text-xs font-bold transition",
           locale === "ar"
             ? "bg-gold text-navy shadow-sm"
-            : "text-white/70 hover:text-gold",
+            : theme === "light"
+              ? "text-navy/55 hover:text-gold"
+              : "text-white/70 hover:text-gold",
         )}
       >
         العربية

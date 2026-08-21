@@ -202,7 +202,7 @@ export const AUDIENCES = [
   },
   {
     title: "New Expats",
-    desc: "Just arrived in Saudi Arabia? Start speaking from day one and settle in faster than you imagined.",
+    desc: "Indian, Filipino, and other non-Arab expats just arrived in Riyadh or the GCC — start speaking from week one.",
     icon: "plane",
   },
   {
@@ -217,7 +217,7 @@ export const AUDIENCES = [
   },
   {
     title: "Job Seekers",
-    desc: "Boost your CV with certified Arabic proficiency — stand out in the competitive Gulf job market.",
+    desc: "Boost your CV with certified spoken Arabic — stand out for roles in Saudi Arabia, the UAE, Qatar, and Kuwait.",
     icon: "search",
   },
 ] as const
@@ -289,5 +289,13 @@ export const FAQS = [
   {
     q: "Why is the 3-month package better value?",
     a: "The monthly package is 899 SAR/month, so 3 months separately costs 2,697 SAR. The 3-month package is 1,899 SAR — saving you 798 SAR. Plus, fluency requires the full 3-month journey, so you get better results and a lower price.",
+  },
+  {
+    q: "Is this course for non-native speakers and Indian expats?",
+    a: "Yes. Arab Pro Academy is built for people who did not grow up speaking Arabic — including Indian professionals, nurses, engineers, teachers, and families living in Riyadh or elsewhere in the GCC. We teach conversation first, in English-friendly classes.",
+  },
+  {
+    q: "Can I join online from the UAE, Qatar, Kuwait, or India?",
+    a: "Yes. In-person batches meet in Riyadh. The same teachers run live online classes for learners across Saudi Arabia, the GCC, and India. Enrollment is on WhatsApp — no long checkout.",
   },
 ] as const

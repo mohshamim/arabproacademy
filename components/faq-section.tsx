@@ -20,13 +20,13 @@ export function FaqSection({
 }) {
   const t = getCopy(locale)
   return (
-    <section id="faq" className="bg-white py-24">
+    <section id="faq" className="bg-white py-14 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center sm:mb-16">
           <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
             {t.faq.eyebrow}
           </p>
-          <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
+          <h2 className="mb-4 font-display text-3xl font-black text-navy sm:text-5xl">
             {t.faq.title}
             <br />
             <span className="text-gold-gradient">{t.faq.titleGold}</span>

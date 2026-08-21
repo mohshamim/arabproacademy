@@ -1,8 +1,10 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter, Noto_Kufi_Arabic, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google"
 
 import "./globals.css"
 import { getLocale } from "@/lib/locale"
+import { getTheme } from "@/lib/theme"
+import { buildPageMetadata } from "@/lib/seo"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,32 +30,33 @@ const notoKufi = Noto_Kufi_Arabic({
   weight: ["400", "500", "600", "700"],
 })
 
-export const metadata: Metadata = {
-  title: "Arab Pro Academy — Master Spoken Arabic in 3 Months | Riyadh",
-  description:
-    "Arab Pro Academy in Riyadh helps expats, students, and professionals master spoken Arabic in 3 months. Guaranteed fluency. Enroll today.",
-  openGraph: {
-    title: "Arab Pro Academy — Master Spoken Arabic in 3 Months",
-    description:
-      "Learn spoken Arabic in Riyadh. 3 months, 3 days a week, guaranteed fluency. Enroll today.",
-    type: "website",
-  },
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#0d1b2a",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale()
+  return buildPageMetadata("home", locale)
 }
 
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}) {
+}: Readonly<{ children: React.ReactNode }>) {
   const locale = await getLocale()
+  const theme = await getTheme()
 
   return (
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${inter.variable} ${playfair.variable} ${notoNaskh.variable} ${notoKufi.variable} h-full`}
+      data-theme={theme}
+      className={`${inter.variable} ${playfair.variable} ${notoNaskh.variable} ${notoKufi.variable} h-full ${theme === "light" ? "theme-light" : "theme-dark"}`}
     >
-      <body className="min-h-full font-sans antialiased">{children}</body>
+      <body className="min-h-full overflow-x-hidden font-sans antialiased">{children}</body>
     </html>
   )
 }

@@ -13,9 +13,9 @@ export function AdminPageHeader({
   actions?: ReactNode
 }) {
   return (
-    <div className="flex flex-wrap items-start justify-between gap-4">
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-4">
       <div className="max-w-2xl">
-        <h1 className="text-2xl font-semibold tracking-tight text-[#0d1b2a] sm:text-[26px]">
+        <h1 className="text-xl font-semibold tracking-tight text-[#0d1b2a] sm:text-[26px]">
           {title}
         </h1>
         {description ? (
@@ -24,7 +24,7 @@ export function AdminPageHeader({
           </p>
         ) : null}
       </div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
         {actions}
         {action ? (
           <Link
@@ -127,12 +127,12 @@ export function AdminTable({
   children: ReactNode
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-      <table className="min-w-full text-left text-sm">
+    <div className="-mx-4 overflow-x-auto border-y border-border sm:mx-0 sm:rounded-xl sm:border sm:bg-card sm:shadow-sm">
+      <table className="min-w-[36rem] w-full text-left text-sm">
         <thead className="border-b border-border bg-[#faf8f4] text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
           <tr>
             {headers.map((h) => (
-              <th key={h || "actions"} className="px-4 py-3.5 font-semibold">
+              <th key={h || "actions"} className="whitespace-nowrap px-3 py-3 font-semibold sm:px-4 sm:py-3.5">
                 {h}
               </th>
             ))}
@@ -177,7 +177,7 @@ export function StatusPill({
   const cls = map[value] || "bg-gray-100 text-gray-700 ring-gray-200"
   return (
     <span
-      className={`inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide ring-1 ${cls}`}
+      className={`inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide ring-1 ${cls}`}
     >
       {value.replaceAll("_", " ")}
     </span>
@@ -207,10 +207,10 @@ export function CheckboxField({
 }
 
 export const adminBtnClass =
-  "inline-flex h-9 cursor-pointer items-center justify-center rounded-lg bg-[#0d1b2a] px-3.5 text-sm font-semibold text-white transition hover:bg-[#1b2d3f] disabled:opacity-60"
+  "inline-flex min-h-11 w-full cursor-pointer items-center justify-center rounded-lg bg-[#0d1b2a] px-3.5 text-sm font-semibold text-white transition hover:bg-[#1b2d3f] disabled:opacity-60 sm:h-9 sm:w-auto"
 
 export const adminGhostBtnClass =
-  "inline-flex h-9 items-center justify-center rounded-lg border border-border bg-white px-3.5 text-sm font-semibold text-[#374151] transition hover:border-[#c4962a] hover:text-[#c4962a]"
+  "inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-border bg-white px-3.5 text-sm font-semibold text-[#374151] transition hover:border-[#c4962a] hover:text-[#c4962a] sm:h-9 sm:w-auto"
 
 export const adminInputClass =
-  "w-full rounded-lg border border-input bg-white px-3 py-2 text-sm text-[#111827] shadow-sm transition placeholder:text-muted-foreground focus:border-[#c4962a] focus:outline-none focus:ring-2 focus:ring-[#c4962a]/20"
+  "w-full rounded-lg border border-input bg-white px-3 py-2.5 text-base text-[#111827] shadow-sm transition placeholder:text-muted-foreground focus:border-[#c4962a] focus:outline-none focus:ring-2 focus:ring-[#c4962a]/20 sm:py-2 sm:text-sm"

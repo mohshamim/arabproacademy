@@ -95,7 +95,7 @@ export default async function AdminStudentDetailPage({
         actions={<StatusPill value={student.status} />}
       />
 
-      <div className="grid gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <div className="rounded-2xl border border-[#e8eaef] bg-white p-4">
           <p className="text-[10px] font-semibold tracking-widest text-[#9CA3AF] uppercase">Present</p>
           <p className="mt-1 text-2xl font-semibold text-[#2d7d67]">{present}</p>

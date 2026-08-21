@@ -57,20 +57,20 @@ export default async function AdminLeadsPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <AdminPageHeader
           title="Leads"
           description="Callback requests from the website form. Open WhatsApp, update pipeline status."
         />
         <a
           href="/api/admin/leads/export"
-          className="rounded-xl border border-[#e5e7eb] bg-white px-4 py-2 text-xs font-semibold text-[#374151]"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white px-4 py-2 text-xs font-semibold text-[#374151] sm:min-h-0"
         >
           Export CSV
         </a>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-xs">
+      <div className="flex gap-2 overflow-x-auto pb-1 text-xs [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {[
           { href: "/admin/leads", label: "All" },
           { href: "/admin/leads?status=NEW", label: "New" },
@@ -82,7 +82,7 @@ export default async function AdminLeadsPage({
           <Link
             key={f.href}
             href={f.href}
-            className="rounded-full border border-[#e5e7eb] bg-white px-3 py-1 font-medium text-[#4B5563] hover:border-[#c4962a] hover:text-[#c4962a]"
+            className="shrink-0 rounded-full border border-[#e5e7eb] bg-white px-3 py-2 font-medium text-[#4B5563] hover:border-[#c4962a] hover:text-[#c4962a]"
           >
             {f.label}
           </Link>

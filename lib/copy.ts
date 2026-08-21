@@ -20,7 +20,7 @@ export const COPY = {
       titleLead: "Master",
       titleGold: "Spoken Arabic",
       titleRest: "in Just 3 Months",
-      body: "Designed for expats, students, and professionals in Saudi Arabia and the Gulf — our structured program guarantees you’ll speak Arabic with confidence and accelerate your career.",
+      body: "Spoken Arabic classes for non-native speakers — Indian professionals, GCC expats, and beginners in Riyadh. In-person or live online. Speak with confidence in 3 months.",
       tagline: "أكاديمية العرب برو — ابدأ رحلتك اليوم",
       ctaPricing: "View Pricing & Enroll",
       ctaWhatsapp: "WhatsApp Us",
@@ -30,7 +30,7 @@ export const COPY = {
       eyebrow: "Why Learn Arabic",
       title: "Your Career Deserves",
       titleGold: "This Advantage",
-      body: "In the competitive Gulf job market, spoken Arabic separates professionals who thrive from those who plateau. Here’s why our students invest in fluency.",
+      body: "Whether you work in Saudi Arabia, the UAE, Qatar, or Kuwait — or join live online from India — spoken Arabic is the skill that moves careers and daily life forward.",
     },
     courses: {
       eyebrow: "What You Get",
@@ -107,6 +107,8 @@ export const COPY = {
     footer: {
       blurb:
         "Helping expats, students, and professionals master spoken Arabic and accelerate their careers across Saudi Arabia and the Gulf.",
+      seoLine:
+        "Spoken Arabic classes in Riyadh for non-native speakers. Live online for learners in the UAE, Qatar, Kuwait, Bahrain, Oman, and India.",
       links: "Quick Links",
       why: "Why Learn Arabic",
       courseDetails: "Course Details",
@@ -160,7 +162,7 @@ export const COPY = {
       titleLead: "أتقن",
       titleGold: "العربية المحكية",
       titleRest: "خلال 3 أشهر فقط",
-      body: "برنامج موجّه للمقيمين والطلاب والمهنيين في السعودية والخليج — نضمن أن تتحدث العربية بثقة وتسرّع مسارك المهني.",
+      body: "برنامج للمقيمين غير الناطقين بالعربية — المهنيون من الهند والخليج والمبتدئون في الرياض. حضوري أو أونلاين مباشر. تحدّث بثقة خلال 3 أشهر.",
       tagline: "أكاديمية العرب برو — ابدأ رحلتك اليوم",
       ctaPricing: "شاهد الأسعار وسجّل",
       ctaWhatsapp: "واتساب",
@@ -170,7 +172,7 @@ export const COPY = {
       eyebrow: "لماذا تتعلم العربية",
       title: "مسارك المهني يستحق",
       titleGold: "هذا التميّز",
-      body: "في سوق العمل الخليجي، العربية المحكية تفرّق بين من يتقدّم ومن يتوقف. لهذا يستثمر طلابنا في الطلاقة.",
+      body: "سواء تعمل في السعودية أو الإمارات أو قطر أو الكويت — أو تنضم أونلاين من الهند — العربية المحكية هي المهارة التي تحرّك المسار المهني والحياة اليومية.",
     },
     courses: {
       eyebrow: "ماذا تحصل عليه",
@@ -247,6 +249,8 @@ export const COPY = {
     footer: {
       blurb:
         "نساعد المقيمين والطلاب والمهنيين على إتقان العربية المحكية وتسريع مسيرتهم في السعودية والخليج.",
+      seoLine:
+        "دورات عربية محكية في الرياض لغير الناطقين بها. أونلاين مباشر للمتعلمين في الإمارات وقطر والكويت والبحرين وعُمان والهند.",
       links: "روابط سريعة",
       why: "لماذا العربية",
       courseDetails: "تفاصيل الدورة",

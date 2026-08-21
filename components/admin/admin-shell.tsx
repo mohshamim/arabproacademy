@@ -152,7 +152,7 @@ function NavLinks({
                       title={collapsed ? item.label : undefined}
                       onClick={onNavigate}
                       className={cn(
-                        "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                        "flex min-h-11 items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                         collapsed && "justify-center px-0",
                         active
                           ? "bg-[#c4962a] text-[#0d1b2a] shadow-sm"
@@ -192,6 +192,13 @@ export function AdminShell({
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [mobileOpen])
 
   useEffect(() => {
     try {
@@ -261,14 +268,14 @@ export function AdminShell({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-[#ddd6c8] bg-[#f7f4ee]/90 px-3 backdrop-blur-md sm:px-4">
+        <header className="sticky top-0 z-30 flex min-h-14 items-center gap-2 border-b border-[#ddd6c8] bg-[#f7f4ee]/90 px-3 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md sm:px-4">
           <button
             type="button"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#e5e7eb] bg-white text-[#0d1b2a] lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#e5e7eb] bg-white text-[#0d1b2a] lg:hidden"
             aria-label="Open menu"
             onClick={() => setMobileOpen(true)}
           >
-            <PanelLeft size={16} />
+            <PanelLeft size={18} />
           </button>
           <button
             type="button"
@@ -279,6 +286,9 @@ export function AdminShell({
             <PanelLeft size={16} />
           </button>
           <Separator orientation="vertical" className="hidden bg-[#ddd6c8] sm:block" />
+          <p className="min-w-0 truncate text-sm font-semibold text-[#0d1b2a] sm:hidden">
+            {crumbs[crumbs.length - 1]?.label ?? "Admin"}
+          </p>
           <nav className="hidden min-w-0 items-center gap-1 text-sm sm:flex">
             {crumbs.map((c, i) => (
               <span key={c.href} className="flex min-w-0 items-center gap-1">
@@ -298,17 +308,17 @@ export function AdminShell({
               </span>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
             <Link
               href="/"
-              className="rounded-md px-2.5 py-1.5 text-xs font-semibold text-[#4B5563] hover:bg-white"
+              className="rounded-md px-2 py-2 text-xs font-semibold text-[#4B5563] hover:bg-white sm:px-2.5 sm:py-1.5"
             >
-              View site
+              Site
             </Link>
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="cursor-pointer rounded-md bg-[#0d1b2a] px-3 py-1.5 text-xs font-semibold text-white"
+                className="cursor-pointer rounded-md bg-[#0d1b2a] px-2.5 py-2 text-xs font-semibold text-white sm:px-3 sm:py-1.5"
               >
                 Sign out
               </button>
@@ -316,8 +326,8 @@ export function AdminShell({
           </div>
         </header>
 
-        <main className="flex-1 p-3 sm:p-4 lg:p-5">
-          <div className="mx-auto max-w-6xl rounded-xl border border-[#e4ddd0] bg-white p-4 shadow-sm sm:p-6">
+        <main className="flex-1 p-0 sm:p-4 lg:p-5">
+          <div className="mx-auto max-w-6xl rounded-none border-0 bg-white p-4 shadow-none sm:rounded-xl sm:border sm:border-[#e4ddd0] sm:p-6 sm:shadow-sm">
             {children}
           </div>
         </main>
@@ -331,13 +341,13 @@ export function AdminShell({
             aria-label="Close menu overlay"
             onClick={() => setMobileOpen(false)}
           />
-          <aside className="absolute top-0 left-0 flex h-full w-[min(88vw,280px)] flex-col bg-[#0d1b2a]">
+          <aside className="absolute top-0 left-0 flex h-full w-[min(88vw,300px)] flex-col bg-[#0d1b2a] pt-[env(safe-area-inset-top,0px)]">
             <div className="flex h-14 items-center justify-between border-b border-white/10 px-4">
               <p className="text-sm font-semibold text-white">Menu</p>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
-                className="text-sm text-white/60"
+                className="inline-flex h-10 items-center px-2 text-sm text-white/60"
               >
                 Close
               </button>
@@ -349,6 +359,28 @@ export function AdminShell({
                 collapsed={false}
                 onNavigate={() => setMobileOpen(false)}
               />
+            </div>
+            <div className="border-t border-white/10 p-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+              <p className="truncate text-xs text-white/50">{email}</p>
+              <p className="mt-0.5 text-[10px] font-semibold tracking-wide text-[#c4962a]">
+                {role === "SUPER_ADMIN" ? "Super Admin" : "Editor"}
+              </p>
+              <div className="mt-3 flex gap-2">
+                <Link
+                  href="/"
+                  className="inline-flex min-h-10 flex-1 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold text-white"
+                >
+                  View site
+                </Link>
+                <form action={signOutAction} className="flex-1">
+                  <button
+                    type="submit"
+                    className="inline-flex min-h-10 w-full cursor-pointer items-center justify-center rounded-lg bg-[#c4962a] text-xs font-semibold text-[#0d1b2a]"
+                  >
+                    Sign out
+                  </button>
+                </form>
+              </div>
             </div>
           </aside>
         </div>

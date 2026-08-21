@@ -54,7 +54,7 @@ export default async function AdminExamScorePage({
           const r = byStudent.get(s.id)
           return (
             <AdminCard key={s.id} title={s.name}>
-              <form action={saveOralExamResult} className="grid gap-3 sm:grid-cols-4">
+              <form action={saveOralExamResult} className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                 <input type="hidden" name="examId" value={exam.id} />
                 <input type="hidden" name="studentId" value={s.id} />
                 <label className="text-xs text-[#6B7280]">

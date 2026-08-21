@@ -52,13 +52,13 @@ export function ContactSection({
   }
 
   return (
-    <section id="contact" className="bg-cream py-24">
+    <section id="contact" className="bg-cream py-14 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center sm:mb-16">
           <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
             {t.contact.eyebrow}
           </p>
-          <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
+          <h2 className="mb-4 font-display text-3xl font-black text-navy sm:text-5xl">
             {t.contact.title}
             <br />
             <span className="text-gold-gradient">{t.contact.titleGold}</span>
@@ -139,8 +139,8 @@ export function ContactSection({
             </div>
           </div>
 
-          <div className="rounded-3xl bg-navy p-8 sm:p-10">
-            <h3 className="mb-2 font-display text-2xl font-bold text-white">
+          <div className="theme-panel rounded-3xl bg-navy p-5 sm:p-10">
+            <h3 className="mb-2 font-display text-xl font-bold text-white sm:text-2xl">
               {t.contact.formTitle}
             </h3>
             <p className="mb-8 text-sm text-gray-400">
@@ -177,7 +177,7 @@ export function ContactSection({
                   id="interest"
                   value={interest}
                   onChange={(e) => setInterest(e.target.value)}
-                  className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-gold"
+                  className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white outline-none focus:border-gold sm:text-sm"
                 >
                   {interestOptions.map((opt) => (
                     <option key={opt.value} value={opt.value} className="bg-navy">

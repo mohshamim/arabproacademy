@@ -3,6 +3,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
 
 import { getCopy } from "@/lib/copy"
 import type { Locale } from "@/lib/locale"
+import { localizedPath } from "@/lib/paths"
 import type { SiteContactSettings } from "@/lib/site-settings"
 
 export function Footer({
@@ -22,19 +23,19 @@ export function Footer({
     { href: "#courses", label: t.footer.courseDetails },
     { href: "#online", label: t.footer.onlineLevels },
     { href: "#pricing", label: t.nav.pricing },
-    { href: "/placement", label: t.nav.placement },
+    { href: localizedPath("/placement", locale), label: t.nav.placement },
     { href: "#faq", label: t.nav.faq },
     { href: "#contact", label: t.nav.contact },
   ]
   return (
-    <footer className="border-t border-white/10 bg-navy pt-16 pb-8">
+    <footer className="theme-panel border-t border-white/10 bg-navy pt-12 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] sm:pt-16 lg:pb-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 grid gap-10 md:grid-cols-3">
           <div>
             <div className="mb-4 flex items-center gap-3">
               <Image
                 src="/logo.svg"
-                alt="Arab Pro Academy"
+                alt="Arab Pro Academy — learn spoken Arabic in Riyadh"
                 width={48}
                 height={48}
                 className="h-12 w-12 rounded-full object-cover ring-2 ring-gold"
@@ -57,6 +58,9 @@ export function Footer({
             <p className="text-sm leading-relaxed text-gray-400">
               {t.footer.blurb}
             </p>
+            <p className="mt-3 text-xs leading-relaxed text-gray-500">
+              {t.footer.seoLine}
+            </p>
           </div>
 
           <div>
@@ -74,7 +78,7 @@ export function Footer({
               ))}
               <li>
                 <a
-                  href="/privacy"
+                  href={localizedPath("/privacy", locale)}
                   className="text-sm text-gray-400 transition-colors hover:text-gold"
                 >
                   {t.footer.privacy}
@@ -82,7 +86,7 @@ export function Footer({
               </li>
               <li>
                 <a
-                  href="/terms"
+                  href={localizedPath("/terms", locale)}
                   className="text-sm text-gray-400 transition-colors hover:text-gold"
                 >
                   {t.footer.terms}
@@ -117,7 +121,7 @@ export function Footer({
               <li>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="flex items-center gap-2 hover:text-gold"
+                  className="flex items-start gap-2 break-all hover:text-gold"
                 >
                   <Mail size={14} className="text-gold" />
                   {contact.email}

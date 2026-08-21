@@ -37,7 +37,7 @@ export function OnlineLevelsSection({
 
   return (
     <section id="online" className="overflow-hidden">
-      <div className="bg-navy px-4 py-14 text-center sm:px-6 lg:px-8">
+      <div className="theme-panel bg-navy px-4 py-10 text-center sm:px-6 sm:py-14 lg:px-8">
         <div className="mx-auto mb-6 flex justify-center">
           <Image
             src="/logo.svg"
@@ -47,7 +47,7 @@ export function OnlineLevelsSection({
             className="h-20 w-20 rounded-full object-cover shadow-xl shadow-gold/20 ring-4 ring-gold sm:h-24 sm:w-24"
           />
         </div>
-        <h2 className="mb-3 font-display text-3xl font-black tracking-wide text-gold sm:text-5xl">
+        <h2 className="mb-3 font-display text-2xl font-black tracking-wide text-gold sm:text-5xl">
           {t.brand}
         </h2>
         <p className="mb-8 text-sm text-white sm:text-base">
@@ -58,10 +58,10 @@ export function OnlineLevelsSection({
         </div>
       </div>
 
-      <div className="bg-cream px-4 py-16 sm:px-6 lg:px-8">
+      <div className="bg-cream px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
-            <h3 className="mb-2 font-display text-3xl font-black text-navy sm:text-4xl">
+            <h3 className="mb-2 font-display text-2xl font-black text-navy sm:text-4xl">
               {t.online.choose}
             </h3>
             <p className="text-sm text-navy/70 sm:text-base">
@@ -133,7 +133,7 @@ export function OnlineLevelsSection({
           </div>
 
           <div className="mx-auto mt-16 max-w-4xl">
-            <h3 className="mb-8 text-center font-display text-3xl font-black text-navy">
+            <h3 className="mb-8 text-center font-display text-2xl font-black text-navy sm:text-3xl">
               {t.online.included}
             </h3>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -150,7 +150,7 @@ export function OnlineLevelsSection({
         </div>
       </div>
 
-      <div className="bg-navy px-4 py-12 sm:px-6 lg:px-8">
+      <div className="theme-panel bg-navy px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-10 md:flex-row md:items-start">
           <div>
             <h4 className="mb-5 text-sm font-bold tracking-widest text-gold">
@@ -172,7 +172,7 @@ export function OnlineLevelsSection({
                 <span className="h-2 w-2 rounded-full bg-teal-light" />
                 <a
                   href={`mailto:${contact.email}`}
-                  className="text-white hover:text-gold"
+                  className="text-white break-all hover:text-gold"
                 >
                   {contact.email}
                 </a>

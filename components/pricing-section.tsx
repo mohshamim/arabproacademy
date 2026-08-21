@@ -18,13 +18,13 @@ export function PricingSection({
 }) {
   const t = getCopy(locale)
   return (
-    <section id="pricing" className="bg-cream py-24">
+    <section id="pricing" className="bg-cream py-14 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center sm:mb-16">
           <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
             {t.pricing.eyebrow}
           </p>
-          <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
+          <h2 className="mb-4 font-display text-3xl font-black text-navy sm:text-5xl">
             {t.pricing.title}
             <br />
             <span className="text-gold-gradient">{t.pricing.titleGold}</span>
@@ -40,7 +40,7 @@ export function PricingSection({
             <div
               key={plan.name}
               className={cn(
-                "relative rounded-3xl p-8 transition-all duration-300 sm:p-10",
+                "relative rounded-3xl p-6 transition-all duration-300 sm:p-10",
                 plan.popular
                   ? "scale-100 border-2 border-gold bg-navy shadow-2xl shadow-gold/20 md:scale-105"
                   : "border border-gray-200 bg-white shadow-lg hover:shadow-xl"
@@ -75,7 +75,7 @@ export function PricingSection({
                 <div className="flex items-baseline gap-2">
                   <span
                     className={cn(
-                      "font-display text-5xl font-black",
+                      "font-display text-4xl font-black sm:text-5xl",
                       plan.popular ? "text-gold-gradient" : "text-navy"
                     )}
                   >

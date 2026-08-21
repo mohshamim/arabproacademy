@@ -6,19 +6,24 @@ import { Menu, Phone, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { LanguageSwitch } from "@/components/language-switch"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/content"
 import { getCopy } from "@/lib/copy"
 import type { Locale } from "@/lib/locale"
+import type { Theme } from "@/lib/theme"
+import { localizedPath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
 
 export function Navbar({
   phoneDisplay = PHONE_DISPLAY,
   phoneHref = PHONE_HREF,
   locale = "en",
+  theme = "dark",
 }: {
   phoneDisplay?: string
   phoneHref?: string
   locale?: Locale
+  theme?: Theme
 }) {
   const t = getCopy(locale)
   const [scrolled, setScrolled] = useState(false)
@@ -29,7 +34,7 @@ export function Navbar({
     { label: t.nav.courses, href: "#courses" },
     { label: t.nav.online, href: "#online" },
     { label: t.nav.pricing, href: "#pricing" },
-    { label: t.nav.placement, href: "/placement" },
+    { label: t.nav.placement, href: localizedPath("/placement", locale) },
     { label: t.nav.faq, href: "#faq" },
     { label: t.nav.contact, href: "#contact" },
   ]
@@ -41,33 +46,42 @@ export function Navbar({
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [open])
+
   return (
     <nav
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300",
-        scrolled ? "bg-navy py-2 shadow-xl" : "bg-transparent py-4",
+        "fixed top-0 z-50 w-full pt-[env(safe-area-inset-top,0px)] transition-all duration-300",
+        scrolled || open
+          ? "theme-panel bg-navy py-2 shadow-xl"
+          : "bg-transparent py-3 sm:py-4",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-        <a href="/" className="group flex min-w-0 items-center gap-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
+        <a href={localizedPath("/", locale)} className="group flex min-w-0 items-center gap-2 sm:gap-3">
           <Image
             src="/logo.svg"
-            alt={t.brand}
+            alt="Arab Pro Academy — spoken Arabic classes in Riyadh for expats"
             width={48}
             height={48}
-            className="h-12 w-12 rounded-full object-cover ring-2 ring-gold ring-offset-1 ring-offset-transparent"
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-gold ring-offset-1 ring-offset-transparent sm:h-12 sm:w-12"
             priority
           />
-          <div className="hidden min-w-0 sm:block">
+          <div className="min-w-0">
             <span
               className={cn(
-                "block text-lg font-bold leading-tight text-white",
+                "block truncate text-sm leading-tight font-bold text-white sm:text-lg",
                 locale === "ar" ? "font-kufi" : "font-display",
               )}
             >
               {t.brand}
             </span>
-            <span className="block text-xs tracking-widest text-gold uppercase">
+            <span className="hidden text-xs tracking-widest text-gold uppercase sm:block">
               {t.city}
             </span>
           </div>
@@ -83,17 +97,21 @@ export function Navbar({
               {link.label}
             </a>
           ))}
-          <LanguageSwitch locale={locale} />
+          <LanguageSwitch locale={locale} theme={theme} />
+          <ThemeToggle theme={theme} locale={locale} />
           <Button asChild size="sm">
             <a href="#pricing">{t.enroll}</a>
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
+          <ThemeToggle theme={theme} locale={locale} />
           <button
-            className="p-2 text-white"
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-white"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle menu"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
           >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -101,24 +119,27 @@ export function Navbar({
       </div>
 
       {open && (
-        <div className="flex flex-col gap-4 border-t border-gold/20 bg-navy px-4 py-4 lg:hidden">
+        <div className="theme-panel max-h-[min(80dvh,32rem)] overflow-y-auto border-t border-gold/20 bg-navy px-4 py-3 lg:hidden">
+          <div className="mb-3 flex justify-center sm:hidden">
+            <LanguageSwitch locale={locale} theme={theme} />
+          </div>
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="border-b border-white/5 py-1 text-sm font-medium text-gray-300 hover:text-gold"
+              className="block border-b border-white/5 py-3 text-base font-medium text-gray-300 hover:text-gold"
             >
               {link.label}
             </a>
           ))}
           <a
             href={phoneHref}
-            className="flex items-center gap-2 text-sm font-medium text-gold"
+            className="mt-1 flex min-h-11 items-center gap-2 py-3 text-sm font-medium text-gold"
           >
-            <Phone size={14} /> {phoneDisplay}
+            <Phone size={16} /> {phoneDisplay}
           </a>
-          <Button asChild size="sm" className="w-full">
+          <Button asChild size="sm" className="mt-1 mb-2 w-full">
             <a href="#pricing" onClick={() => setOpen(false)}>
               {t.enroll}
             </a>

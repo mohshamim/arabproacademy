@@ -9,7 +9,7 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <div dir="ltr" lang="en" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0d1b2a] px-4 py-10">
+    <div dir="ltr" lang="en" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0d1b2a] px-4 py-10">
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#c4962a] text-sm font-bold text-[#0d1b2a]">
@@ -20,8 +20,8 @@ export default async function AdminLoginPage() {
           </p>
         </div>
 
-        <div className="rounded-3xl border border-white/10 bg-white p-8">
-          <h1 className="font-display text-2xl font-bold tracking-tight text-[#111827]">
+        <div className="rounded-3xl border border-white/10 bg-white p-5 sm:p-8">
+          <h1 className="font-display text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
             Sign in to Admin
           </h1>
           <p className="mt-1.5 text-sm leading-relaxed text-[#6B7280]">

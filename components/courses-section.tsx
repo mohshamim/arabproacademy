@@ -29,13 +29,13 @@ export function CoursesSection({ locale = "en" }: { locale?: Locale }) {
   const journey = locale === "ar" ? JOURNEY_AR : JOURNEY
 
   return (
-    <section id="courses" className="arabic-pattern bg-navy py-24">
+    <section id="courses" className="theme-panel arabic-pattern bg-navy py-14 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center sm:mb-16">
           <p className="mb-3 text-sm font-semibold tracking-widest text-gold">
             {t.courses.eyebrow}
           </p>
-          <h2 className="mb-4 font-display text-4xl font-black text-white sm:text-5xl">
+          <h2 className="mb-4 font-display text-3xl font-black text-white sm:text-5xl">
             {t.courses.title}
             <br />
             <span className="text-gold-gradient">{t.courses.titleGold}</span>
@@ -72,11 +72,11 @@ export function CoursesSection({ locale = "en" }: { locale?: Locale }) {
           })}
         </div>
 
-        <div className="mb-12 text-center">
+        <div className="mb-10 text-center sm:mb-12">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal/40 bg-teal/20 px-4 py-2 text-xs font-semibold text-teal-light">
             <Route size={14} /> {t.courses.pathBadge}
           </div>
-          <h3 className="font-display text-3xl font-black text-white">
+          <h3 className="font-display text-2xl font-black text-white sm:text-3xl">
             {t.courses.pathTitle}
           </h3>
         </div>
@@ -84,7 +84,7 @@ export function CoursesSection({ locale = "en" }: { locale?: Locale }) {
         <div className="grid gap-6 md:grid-cols-3">
           {journey.map((step, index) => (
             <div key={step.month} className="relative">
-              <div className="h-full rounded-2xl border border-gold/20 bg-gradient-to-br from-navy-mid to-navy p-8">
+              <div className="theme-card h-full rounded-2xl border border-gold/20 bg-gradient-to-br from-navy-mid to-navy p-6 sm:p-8">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="text-sm font-bold tracking-wider text-gold">
                     {step.month}

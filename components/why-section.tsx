@@ -27,13 +27,13 @@ export function WhySection({ locale = "en" }: { locale?: Locale }) {
   const items = locale === "ar" ? WHY_ITEMS_AR : WHY_ITEMS
 
   return (
-    <section id="why" className="bg-white py-24">
+    <section id="why" className="bg-white py-14 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center sm:mb-16">
           <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
             {t.why.eyebrow}
           </p>
-          <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
+          <h2 className="mb-4 font-display text-3xl font-black text-navy sm:text-5xl">
             {t.why.title}
             <br />
             <span className="text-gold-gradient">{t.why.titleGold}</span>

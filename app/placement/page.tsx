@@ -7,12 +7,16 @@ import { LanguageSwitch } from "@/components/language-switch"
 import { WHATSAPP_URL, PHONE_HREF, whatsappEnrollUrl } from "@/lib/content"
 import { getCopy } from "@/lib/copy"
 import { getLocale } from "@/lib/locale"
+import { getTheme } from "@/lib/theme"
+import { localizedPath } from "@/lib/paths"
+import { breadcrumbJsonLd, buildPageMetadata } from "@/lib/seo"
+import { JsonLd } from "@/components/json-ld"
 import { DEFAULT_CONTACT } from "@/lib/site-settings"
 import { submitPlacementQuiz } from "@/app/placement/actions"
 
-export const metadata: Metadata = {
-  title: "Placement quiz — Arab Pro Academy",
-  description: "2-minute spoken Arabic placement. Beginner or intermediate — then enroll on WhatsApp.",
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale()
+  return buildPageMetadata("placement", locale)
 }
 
 export default async function PlacementPage({
@@ -27,6 +31,7 @@ export default async function PlacementPage({
   }>
 }) {
   const locale = await getLocale()
+  const theme = await getTheme()
   const t = getCopy(locale)
   const sp = (await searchParams) || {}
 
@@ -65,12 +70,21 @@ export default async function PlacementPage({
 
   return (
     <div className="min-h-screen bg-cream">
-      <Navbar locale={locale} />
-      <main className="mx-auto max-w-3xl px-4 pt-28 pb-16">
+      <JsonLd
+        data={breadcrumbJsonLd(
+          [
+            { name: t.brand, path: "/" },
+            { name: t.placement.title, path: "/placement" },
+          ],
+          locale,
+        )}
+      />
+      <Navbar locale={locale} theme={theme} />
+      <main className="mx-auto max-w-3xl px-4 pt-24 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] sm:pt-28">
         <p className="text-xs font-semibold tracking-[0.18em] text-gold">
           {t.placement.eyebrow}
         </p>
-        <h1 className="mt-2 font-display text-4xl font-black text-navy">
+        <h1 className="mt-2 font-display text-3xl font-black text-navy sm:text-4xl">
           {t.placement.title}
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-gray-600">
@@ -128,13 +142,13 @@ export default async function PlacementPage({
                 name="name"
                 required
                 placeholder={t.placement.name}
-                className="rounded-xl border border-gray-200 px-3 py-2.5 text-sm"
+                className="min-h-12 rounded-xl border border-gray-200 px-3 py-2.5 text-base sm:text-sm"
               />
               <input
                 name="phone"
                 required
                 placeholder={t.placement.phone}
-                className="rounded-xl border border-gray-200 px-3 py-2.5 text-sm"
+                className="min-h-12 rounded-xl border border-gray-200 px-3 py-2.5 text-base sm:text-sm"
               />
             </div>
             {questions.map((q, i) => (
@@ -156,7 +170,7 @@ export default async function PlacementPage({
                   ).map(([key, label]) => (
                     <label
                       key={key}
-                      className="flex cursor-pointer items-start gap-2 rounded-xl px-2 py-1.5 hover:bg-cream"
+                      className="flex min-h-11 cursor-pointer items-start gap-2 rounded-xl px-2 py-2.5 hover:bg-cream"
                     >
                       <input
                         type="radio"
@@ -176,7 +190,7 @@ export default async function PlacementPage({
             ))}
             <button
               type="submit"
-              className="w-full rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white"
+              className="min-h-12 w-full rounded-xl bg-navy px-4 py-3 text-base font-semibold text-white sm:text-sm"
             >
               {t.placement.submit}
             </button>
@@ -184,7 +198,7 @@ export default async function PlacementPage({
         ) : null}
 
         <p className="mt-10 text-center text-xs text-gray-500">
-          <Link href="/" className="hover:text-gold">
+          <Link href={localizedPath("/", locale)} className="hover:text-gold">
             {t.placement.back}
           </Link>
         </p>
@@ -195,7 +209,7 @@ export default async function PlacementPage({
         phoneHref={PHONE_HREF}
         locale={locale}
       />
-      <LanguageSwitch locale={locale} variant="float" />
+      <LanguageSwitch locale={locale} theme={theme} variant="float" />
     </div>
   )
 }

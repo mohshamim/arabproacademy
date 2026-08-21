@@ -131,8 +131,8 @@ export default async function AdminOverviewPage() {
           ) : (
             <ul className="divide-y divide-[#f3f4f6]">
               {recentLeads.map((l) => (
-                <li key={l.id} className="flex items-center justify-between py-2.5">
-                  <Link href={`/admin/leads/${l.id}`} className="text-sm font-medium hover:text-[#c4962a]">
+                <li key={l.id} className="flex min-w-0 items-center justify-between gap-3 py-2.5">
+                  <Link href={`/admin/leads/${l.id}`} className="min-w-0 truncate text-sm font-medium hover:text-[#c4962a]">
                     {l.name || "Lead"}{" "}
                     <span className="text-xs font-normal text-[#6B7280]">
                       {l.interest}

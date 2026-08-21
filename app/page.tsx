@@ -11,12 +11,16 @@ import { PricingSection } from "@/components/pricing-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { WhatsAppFloat } from "@/components/whatsapp-float"
 import { WhySection } from "@/components/why-section"
+import { JsonLd } from "@/components/json-ld"
 import { getLocale } from "@/lib/locale"
+import { getTheme } from "@/lib/theme"
+import { courseJsonLd, faqJsonLd, organizationJsonLd } from "@/lib/seo"
 import { localizeContent, localizedInterestOptions } from "@/lib/localize-content"
 import { getPublicContent } from "@/lib/site-data"
 
 export default async function Home() {
   const locale = await getLocale()
+  const theme = await getTheme()
   const raw = await getPublicContent()
   const content = localizeContent(raw, locale)
 
@@ -26,6 +30,7 @@ export default async function Home() {
         phoneDisplay={content.contact.phoneDisplay}
         phoneHref={content.phoneHref}
         locale={locale}
+        theme={theme}
       />
       <Hero stats={content.stats} whatsappUrl={content.whatsappUrl} locale={locale} />
       <WhySection locale={locale} />
@@ -58,8 +63,9 @@ export default async function Home() {
         phoneHref={content.phoneHref}
         locale={locale}
       />
+      <JsonLd data={[organizationJsonLd(), courseJsonLd(), faqJsonLd(content.faqs)]} />
       <WhatsAppFloat href={content.whatsappUrl} />
-      <LanguageSwitch locale={locale} variant="float" />
+      <LanguageSwitch locale={locale} theme={theme} variant="float" />
     </main>
   )
 }

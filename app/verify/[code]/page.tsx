@@ -1,9 +1,17 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { prismaReady, hasDatabaseUrl } from "@/lib/prisma"
+import { getLocale } from "@/lib/locale"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Verify certificate — Arab Pro Academy",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ code: string }>
+}): Promise<Metadata> {
+  const locale = await getLocale()
+  const { code } = await params
+  return buildPageMetadata("verify", locale, `/verify/${code.trim().toUpperCase()}`)
 }
 
 export default async function VerifyCertificatePage({

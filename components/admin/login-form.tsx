@@ -48,7 +48,7 @@ export function LoginForm() {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-[#e5e7eb] bg-white px-3 py-2.5 text-sm shadow-sm transition focus:border-[#c4962a] focus:outline-none focus:ring-2 focus:ring-[#c4962a]/20"
+    "w-full rounded-xl border border-[#e5e7eb] bg-white px-3 py-3 text-base shadow-sm transition focus:border-[#c4962a] focus:outline-none focus:ring-2 focus:ring-[#c4962a]/20 sm:py-2.5 sm:text-sm"
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
