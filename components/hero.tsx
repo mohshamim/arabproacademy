@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { ChevronDown, MessageCircle, Star } from "lucide-react"
+import { ChevronDown, MessageCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { STATS } from "@/lib/content"
@@ -27,22 +27,14 @@ export function Hero({
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 pt-24 pb-28 text-center sm:px-6 sm:pt-28 sm:pb-20 lg:px-8">
         <div className="animate-fade-up mb-5 flex justify-center sm:mb-8">
-          <div className="relative">
-            <Image
-              src="/logo.svg"
-              alt="Arab Pro Academy logo — spoken Arabic school in Riyadh for non-native speakers"
-              width={112}
-              height={112}
-              className="h-20 w-20 rounded-full object-cover shadow-2xl shadow-gold/20 ring-4 ring-gold sm:h-28 sm:w-28"
-              priority
-            />
-            <div className="absolute -right-2 -bottom-2 flex items-center gap-1 rounded-full bg-teal px-2 py-1">
-              <Star size={10} fill="#E8C66B" className="text-gold-light" />
-              <span className="text-[10px] font-semibold text-white">
-                {t.hero.certified}
-              </span>
-            </div>
-          </div>
+          <Image
+            src="/logo.svg"
+            alt="Arab Pro Academy logo — spoken Arabic school in Riyadh for non-native speakers"
+            width={112}
+            height={112}
+            className="h-20 w-20 rounded-full object-cover shadow-2xl shadow-gold/20 ring-4 ring-gold sm:h-28 sm:w-28"
+            priority
+          />
         </div>
 
         <div className="animate-fade-up delay-100 mb-4 inline-flex max-w-full items-center gap-2 rounded-full border border-gold/30 bg-gold/15 px-3 py-1.5 text-[11px] font-semibold text-gold-light sm:mb-6 sm:px-4 sm:py-2 sm:text-xs">

@@ -52,8 +52,6 @@ export async function getPublicContent() {
   const statsSettings = await getStatsSettings()
 
   const stats = [
-    { value: statsSettings.students, label: "Students Enrolled" },
-    { value: statsSettings.successRate, label: "Success Rate" },
     { value: statsSettings.duration, label: "To Fluency" },
     { value: statsSettings.locationLabel, label: "Based in KSA" },
   ]

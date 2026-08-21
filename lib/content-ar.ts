@@ -41,8 +41,6 @@ export const ONLINE_INCLUDES_AR = [
 ] as const
 
 export const STAT_LABELS_AR = [
-  "طالب مسجّل",
-  "نسبة النجاح",
   "حتى الطلاقة",
   "في السعودية",
 ] as const

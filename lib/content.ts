@@ -59,8 +59,6 @@ export const ONLINE_INCLUDES = [
 ] as const
 
 export const STATS = [
-  { value: "80+", label: "Students Enrolled" },
-  { value: "98%", label: "Success Rate" },
   { value: "3 Months", label: "To Fluency" },
   { value: "Riyadh", label: "Based in KSA" },
 ] as const
