@@ -33,7 +33,7 @@ export function Navbar({
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#" className="group flex items-center gap-3">
+        <a href="/" className="group flex items-center gap-3">
           <Image
             src="/logo.svg"
             alt="Arab Pro Academy"

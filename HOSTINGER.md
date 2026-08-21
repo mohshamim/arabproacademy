@@ -138,4 +138,12 @@ Import in phpMyAdmin (does not wipe existing tables):
 
 Redeploy the latest GitHub commit, then in admin click **Seed content now**. That loads the 12-week in-person syllabus and both 8-week online syllabi.
 
+## I) Attendance, quizzes, oral exams, certificates
+
+Import in phpMyAdmin (does not wipe existing tables):
+
+`D:\Shamim\arabproacademy\prisma\hostinger-lms-upgrade.sql`
+
+Redeploy, then **Seed content now** to load the public placement quiz (`/placement`). Certificates verify at `/verify/APA-XXXXXX`.
+
 Change the admin password after first login (create a second Super Admin, then stop using the env default).

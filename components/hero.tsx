@@ -73,6 +73,12 @@ export function Hero({
             </a>
           </Button>
         </div>
+        <a
+          href="/placement"
+          className="animate-fade-up delay-400 mb-10 inline-flex text-sm font-semibold text-gold-light underline-offset-4 hover:underline"
+        >
+          Not sure of your level? Take the 2-minute placement quiz →
+        </a>
 
         <div className="animate-fade-up delay-500 flex flex-wrap items-center justify-center gap-8 text-center">
           {stats.map((stat) => (

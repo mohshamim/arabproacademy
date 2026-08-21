@@ -25,7 +25,7 @@ export default async function AdminLoginPage() {
             Sign in to Admin
           </h1>
           <p className="mt-1.5 text-sm leading-relaxed text-[#6B7280]">
-            Manage leads, pricing, FAQ, and site settings.
+            Manage leads, classes, attendance, quizzes, and certificates.
           </p>
           <div className="mt-6">
             <LoginForm />

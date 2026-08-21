@@ -5,6 +5,7 @@ import {
   AdminEmpty,
   AdminPageHeader,
   AdminTable,
+  StatusPill,
   adminInputClass,
 } from "@/components/admin/ui"
 import { upsertBatch } from "@/app/admin/(dashboard)/actions"
@@ -86,12 +87,14 @@ export default async function AdminBatchesPage() {
                 <div className="text-xs text-[#6B7280]">{b.daysLabel || b.mode}</div>
               </td>
               <td className="px-4 py-3 text-xs">{b.course.name}</td>
-              <td className="px-4 py-3 text-xs">{b.status}</td>
+              <td className="px-4 py-3">
+                <StatusPill value={b.status} />
+              </td>
               <td className="px-4 py-3">
                 {b._count.students}/{b.capacity}
               </td>
               <td className="px-4 py-3 text-right">
-                <Link href={`/admin/batches/${b.id}`} className="text-xs font-semibold text-blue-600">
+                <Link href={`/admin/batches/${b.id}`} className="text-xs font-semibold text-[#c4962a]">
                   Open
                 </Link>
               </td>

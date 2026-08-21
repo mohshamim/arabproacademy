@@ -2,7 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { prismaReady } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
-import { AdminPageHeader, adminInputClass } from "@/components/admin/ui"
+import { AdminPageHeader, StatusPill, adminInputClass } from "@/components/admin/ui"
 import { deleteBatch, upsertBatch } from "@/app/admin/(dashboard)/actions"
 
 function ymd(d: Date | null) {
@@ -35,6 +35,23 @@ export default async function AdminBatchDetailPage({
       <AdminPageHeader
         title={batch.name}
         description={`${batch.course.name} · ${batch.students.length}/${batch.capacity} students`}
+        actions={
+          <>
+            <StatusPill value={batch.status} />
+            <Link
+              href={`/admin/attendance?batch=${batch.id}`}
+              className="inline-flex h-10 items-center rounded-xl bg-[#0d1b2a] px-4 text-sm font-semibold text-white"
+            >
+              Attendance
+            </Link>
+            <Link
+              href="/admin/exams"
+              className="inline-flex h-10 items-center rounded-xl border border-[#e5e7eb] bg-white px-4 text-sm font-semibold text-[#374151]"
+            >
+              Oral exam
+            </Link>
+          </>
+        }
       />
 
       <form action={upsertBatch} className="space-y-3 rounded-2xl border border-[#e5e7eb] bg-white p-5">
@@ -81,7 +98,7 @@ export default async function AdminBatchDetailPage({
                   {s.name}{" "}
                   <span className="text-xs text-[#6B7280]">{s.phone}</span>
                 </span>
-                <Link href={`/admin/students/${s.id}`} className="text-xs font-semibold text-blue-600">
+                <Link href={`/admin/students/${s.id}`} className="text-xs font-semibold text-[#c4962a]">
                   Open
                 </Link>
               </li>

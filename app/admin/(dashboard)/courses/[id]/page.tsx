@@ -71,7 +71,9 @@ export default async function AdminCourseDetailPage({
           <textarea name="vocabulary" required rows={3} placeholder="One vocab item per line" className={adminInputClass} />
           <textarea name="activity" required rows={2} placeholder="In-class activity / role-play" className={adminInputClass} />
           <textarea name="homework" required rows={2} placeholder="Homework (usually a voice note)" className={adminInputClass} />
-          <input name="materialUrl" placeholder="PDF / Drive / audio URL (optional)" className={adminInputClass} />
+          <input name="materialUrl" placeholder="PDF / Drive URL" className={adminInputClass} />
+          <input name="audioUrl" placeholder="Vocab audio URL" className={adminInputClass} />
+          <input name="recordingUrl" placeholder="Class recording URL" className={adminInputClass} />
           <button type="submit" className="cursor-pointer rounded-xl bg-[#0d1b2a] px-4 py-2 text-sm font-semibold text-white">
             Add week
           </button>
@@ -97,7 +99,9 @@ export default async function AdminCourseDetailPage({
           <textarea name="vocabulary" rows={4} defaultValue={w.vocabulary} className={adminInputClass} />
           <textarea name="activity" rows={2} defaultValue={w.activity} className={adminInputClass} />
           <textarea name="homework" rows={2} defaultValue={w.homework} className={adminInputClass} />
-          <input name="materialUrl" defaultValue={w.materialUrl || ""} className={adminInputClass} />
+          <input name="materialUrl" defaultValue={w.materialUrl || ""} placeholder="PDF / Drive" className={adminInputClass} />
+          <input name="audioUrl" defaultValue={w.audioUrl || ""} placeholder="Vocab audio URL" className={adminInputClass} />
+          <input name="recordingUrl" defaultValue={w.recordingUrl || ""} placeholder="Class recording URL" className={adminInputClass} />
           <div className="flex justify-between">
             <button type="submit" className="cursor-pointer rounded-xl bg-[#0d1b2a] px-4 py-2 text-sm font-semibold text-white">
               Save week

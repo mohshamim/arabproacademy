@@ -301,7 +301,7 @@ export async function upsertCourseWeek(formData: FormData) {
   const prisma = await prismaReady()
   const id = str(formData, "id")
   const courseId = str(formData, "courseId")
-  const data = {
+  const base = {
     courseId,
     weekNumber: Number(str(formData, "weekNumber") || 1),
     title: str(formData, "title"),
@@ -311,10 +311,23 @@ export async function upsertCourseWeek(formData: FormData) {
     homework: str(formData, "homework"),
     materialUrl: str(formData, "materialUrl") || null,
   }
-  if (id) {
-    await prisma.courseWeek.update({ where: { id }, data })
-  } else {
-    await prisma.courseWeek.create({ data })
+  const withMaterials = {
+    ...base,
+    audioUrl: str(formData, "audioUrl") || null,
+    recordingUrl: str(formData, "recordingUrl") || null,
+  }
+  try {
+    if (id) {
+      await prisma.courseWeek.update({ where: { id }, data: withMaterials })
+    } else {
+      await prisma.courseWeek.create({ data: withMaterials })
+    }
+  } catch {
+    if (id) {
+      await prisma.courseWeek.update({ where: { id }, data: base })
+    } else {
+      await prisma.courseWeek.create({ data: base })
+    }
   }
   revalidatePath(`/admin/courses/${courseId}`)
 }

@@ -69,7 +69,7 @@ export default async function AdminCoursesPage() {
               <td className="px-4 py-3">{c._count.weeks}</td>
               <td className="px-4 py-3">{c._count.batches}</td>
               <td className="px-4 py-3 text-right">
-                <Link href={`/admin/courses/${c.id}`} className="text-xs font-semibold text-blue-600">
+                <Link href={`/admin/courses/${c.id}`} className="text-xs font-semibold text-[#c4962a]">
                   Syllabus
                 </Link>
               </td>

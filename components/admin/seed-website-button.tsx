@@ -30,7 +30,7 @@ export function SeedWebsiteButton() {
       }
       const r = data.result
       setMessage(
-        `Done — courses ${r.courses ?? 0}, weeks ${r.weeks ?? 0}, pricing ${r.pricing}, FAQ ${r.faqs}.`,
+        `Done — courses ${r.courses ?? 0}, weeks ${r.weeks ?? 0}, quizzes ${r.quizzes ?? 0}, pricing ${r.pricing}, FAQ ${r.faqs}.`,
       )
       router.refresh()
     } catch (err) {
@@ -41,19 +41,20 @@ export function SeedWebsiteButton() {
   }
 
   return (
-    <div className="rounded-2xl border border-[#e5e7eb] bg-white p-5">
+    <div className="rounded-xl border border-[#e5e7eb] bg-white p-4">
       <h2 className="text-sm font-semibold text-[#1F2937]">
         Seed website content
       </h2>
       <p className="mt-1 text-sm text-[#6B7280]">
-        Copies pricing, FAQ, testimonials, and spoken-Arabic week syllabi into
-        MySQL. Does not change the public page design. Super Admin only.
+        Copies pricing, FAQ, testimonials, syllabi, and the public placement
+        quiz into MySQL. Does not change the public page design. Super Admin
+        only.
       </p>
       <button
         type="button"
         onClick={onClick}
         disabled={pending}
-        className="mt-4 inline-flex h-10 cursor-pointer items-center justify-center rounded-xl bg-[#0d1b2a] px-4 text-sm font-semibold text-white disabled:opacity-60"
+        className="mt-4 inline-flex h-9 cursor-pointer items-center justify-center rounded-lg bg-[#0d1b2a] px-3.5 text-sm font-semibold text-white disabled:opacity-60"
       >
         {pending ? "Seeding…" : "Seed content now"}
       </button>

@@ -8,6 +8,7 @@ import {
 } from "@/lib/content"
 import { DEFAULT_CONTACT, DEFAULT_STATS } from "@/lib/site-settings"
 import { seedCoursesAndSyllabus } from "@/lib/seed-courses"
+import { seedLmsContent } from "@/lib/seed-lms"
 
 export type SeedResult = {
   pricing: number
@@ -16,6 +17,7 @@ export type SeedResult = {
   faqs: number
   courses: number
   weeks: number
+  quizzes: number
   adminUpserted: boolean
 }
 
@@ -137,12 +139,20 @@ export async function seedWebsiteContent(
 
   let courses = 0
   let weeks = 0
+  let quizzes = 0
   try {
     const taught = await seedCoursesAndSyllabus(prisma)
     courses = taught.courses
     weeks = taught.weeks
   } catch (err) {
     console.error("[seed] courses/syllabus skipped (import hostinger-courses-upgrade.sql)", err)
+  }
+
+  try {
+    const lms = await seedLmsContent(prisma)
+    quizzes = lms.quizzes
+  } catch (err) {
+    console.error("[seed] LMS skipped (import hostinger-lms-upgrade.sql)", err)
   }
 
   return {
@@ -152,6 +162,7 @@ export async function seedWebsiteContent(
     faqs: await prisma.faqItem.count(),
     courses,
     weeks,
+    quizzes,
     adminUpserted,
   }
 }

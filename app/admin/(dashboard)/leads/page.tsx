@@ -132,7 +132,7 @@ export default async function AdminLeadsPage({
                   <div className="flex flex-wrap items-center justify-end gap-2">
                     <Link
                       href={`/admin/leads/${lead.id}`}
-                      className="text-xs font-semibold text-blue-600"
+                      className="text-xs font-semibold text-[#c4962a]"
                     >
                       Open
                     </Link>

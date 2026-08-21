@@ -111,19 +111,24 @@ model Course {
   updatedAt     DateTime     @updatedAt
   weeks         CourseWeek[]
   batches       Batch[]
+  quizzes       Quiz[]
 }
 
 model CourseWeek {
-  id          String  @id @default(cuid())
-  courseId    String
-  weekNumber  Int
-  title       String
-  outcomes    String  @db.Text
-  vocabulary  String  @db.Text
-  activity    String  @db.Text
-  homework    String  @db.Text
-  materialUrl String?
-  course      Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  id            String             @id @default(cuid())
+  courseId      String
+  weekNumber    Int
+  title         String
+  outcomes      String             @db.Text
+  vocabulary    String             @db.Text
+  activity      String             @db.Text
+  homework      String             @db.Text
+  materialUrl   String?            @db.Text
+  audioUrl      String?            @db.Text
+  recordingUrl  String?            @db.Text
+  course        Course             @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  homeworkLogs  HomeworkEntry[]
+  quizzes       Quiz[]
 
   @@unique([courseId, weekNumber])
   @@index([courseId])
@@ -142,8 +147,10 @@ model Batch {
   notes      String?     @db.Text
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  course     Course      @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  course     Course         @relation(fields: [courseId], references: [id], onDelete: Restrict)
   students   Student[]
+  sessions   ClassSession[]
+  oralExams  OralExam[]
 
   @@index([courseId])
   @@index([status])
@@ -163,13 +170,166 @@ model Student {
   enrolledAt  DateTime       @default(now())
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  lead        Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
-  batch       Batch?         @relation(fields: [batchId], references: [id], onDelete: SetNull)
+  lead        Lead?           @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  batch       Batch?          @relation(fields: [batchId], references: [id], onDelete: SetNull)
+  attendance  Attendance[]
+  attempts    QuizAttempt[]
+  examResults OralExamResult[]
+  homework    HomeworkEntry[]
+  certificates Certificate[]
 
   @@index([batchId])
   @@index([leadId])
   @@index([status])
   @@index([phone])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  LATE
+  ABSENT
+}
+
+enum QuizKind {
+  PLACEMENT
+  WEEKLY
+  LISTENING
+}
+
+enum ExamKind {
+  MID
+  FINAL
+}
+
+model ClassSession {
+  id          String         @id @default(cuid())
+  batchId     String
+  heldOn      DateTime
+  title       String
+  notes       String?        @db.Text
+  createdAt   DateTime       @default(now())
+  batch       Batch          @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  attendance  Attendance[]
+
+  @@index([batchId])
+}
+
+model Attendance {
+  id         String             @id @default(cuid())
+  sessionId  String
+  studentId  String
+  status     AttendanceStatus   @default(PRESENT)
+  session    ClassSession       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  student    Student            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, studentId])
+  @@index([studentId])
+}
+
+model Quiz {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  title       String
+  kind        QuizKind
+  courseId    String?
+  weekId      String?
+  published   Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  course      Course?        @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  week        CourseWeek?    @relation(fields: [weekId], references: [id], onDelete: SetNull)
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
+
+  @@index([kind])
+}
+
+model QuizQuestion {
+  id        String @id @default(cuid())
+  quizId    String
+  prompt    String @db.Text
+  choiceA   String
+  choiceB   String
+  choiceC   String
+  choiceD   String
+  correct   String
+  sortOrder Int    @default(0)
+  quiz      Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+}
+
+model QuizAttempt {
+  id         String   @id @default(cuid())
+  quizId     String
+  studentId  String?
+  name       String?
+  phone      String?
+  score      Int
+  total      Int
+  answers    Json?
+  createdAt  DateTime @default(now())
+  quiz       Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  student    Student? @relation(fields: [studentId], references: [id], onDelete: SetNull)
+
+  @@index([quizId])
+  @@index([studentId])
+}
+
+model OralExam {
+  id        String           @id @default(cuid())
+  batchId   String
+  kind      ExamKind
+  title     String
+  heldOn    DateTime?
+  createdAt DateTime         @default(now())
+  batch     Batch            @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  results   OralExamResult[]
+
+  @@index([batchId])
+}
+
+model OralExamResult {
+  id             String   @id @default(cuid())
+  examId         String
+  studentId      String
+  pronunciation  Int
+  vocabulary     Int
+  fluency        Int
+  understanding  Int
+  passed         Boolean  @default(false)
+  notes          String?  @db.Text
+  exam           OralExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, studentId])
+  @@index([studentId])
+}
+
+model HomeworkEntry {
+  id        String     @id @default(cuid())
+  weekId    String
+  studentId String
+  voiceUrl  String?    @db.Text
+  notes     String?    @db.Text
+  score     Int?
+  createdAt DateTime   @default(now())
+  week      CourseWeek @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  student   Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([weekId])
+  @@index([studentId])
+}
+
+model Certificate {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  studentId  String
+  courseName String
+  issuedAt   DateTime @default(now())
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
 }
 
 model PricingPackage {

@@ -5,6 +5,7 @@ import {
   AdminEmpty,
   AdminPageHeader,
   AdminTable,
+  StatusPill,
   adminInputClass,
 } from "@/components/admin/ui"
 import { upsertStudent } from "@/app/admin/(dashboard)/actions"
@@ -77,9 +78,11 @@ export default async function AdminStudentsPage() {
               <td className="px-4 py-3 font-medium">{s.name}</td>
               <td className="px-4 py-3 text-xs">{s.phone}</td>
               <td className="px-4 py-3 text-xs">{s.batch?.name || "—"}</td>
-              <td className="px-4 py-3 text-xs">{s.status}</td>
+              <td className="px-4 py-3">
+                <StatusPill value={s.status} />
+              </td>
               <td className="px-4 py-3 text-right">
-                <Link href={`/admin/students/${s.id}`} className="text-xs font-semibold text-blue-600">
+                <Link href={`/admin/students/${s.id}`} className="text-xs font-semibold text-[#c4962a]">
                   Open
                 </Link>
               </td>

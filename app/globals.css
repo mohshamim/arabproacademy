@@ -153,3 +153,10 @@ h4 {
 .delay-500 {
   animation-delay: 500ms;
 }
+
+.admin-app h1,
+.admin-app h2,
+.admin-app h3,
+.admin-app h4 {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
