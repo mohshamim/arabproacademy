@@ -9,7 +9,7 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0d1b2a] px-4 py-10">
+    <div dir="ltr" lang="en" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0d1b2a] px-4 py-10">
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#c4962a] text-sm font-bold text-[#0d1b2a]">

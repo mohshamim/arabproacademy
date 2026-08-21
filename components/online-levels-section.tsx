@@ -3,6 +3,9 @@ import { ArrowUpRight, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { ONLINE_INCLUDES, ONLINE_LEVELS, whatsappEnrollUrl } from "@/lib/content"
+import { ONLINE_INCLUDES_AR } from "@/lib/content-ar"
+import { getCopy } from "@/lib/copy"
+import type { Locale } from "@/lib/locale"
 import type { PublicOnlineLevel } from "@/lib/site-data"
 import type { SiteContactSettings } from "@/lib/site-settings"
 import { cn } from "@/lib/utils"
@@ -20,12 +23,16 @@ export function OnlineLevelsSection({
   contact,
   whatsappUrl,
   phoneHref,
+  locale = "en",
 }: {
   levels?: PublicOnlineLevel[]
   contact: SiteContactSettings
   whatsappUrl: string
   phoneHref: string
+  locale?: Locale
 }) {
+  const t = getCopy(locale)
+  const includes = locale === "ar" ? ONLINE_INCLUDES_AR : ONLINE_INCLUDES
   const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(whatsappUrl)}`
 
   return (
@@ -41,13 +48,13 @@ export function OnlineLevelsSection({
           />
         </div>
         <h2 className="mb-3 font-display text-3xl font-black tracking-wide text-gold sm:text-5xl">
-          ARAB PRO ACADEMY
+          {t.brand}
         </h2>
         <p className="mb-8 text-sm text-white sm:text-base">
-          Spoken Arabic Program for Expats in Saudi Arabia
+          {t.online.subtitle}
         </p>
-        <div className="inline-flex items-center rounded-full bg-teal px-5 py-2.5 text-[11px] font-bold tracking-wider text-white uppercase sm:text-xs">
-          New Online Courses • Beginner & Intermediate Levels
+        <div className="inline-flex items-center rounded-full bg-teal px-5 py-2.5 text-[11px] font-bold text-white sm:text-xs">
+          {t.online.badge}
         </div>
       </div>
 
@@ -55,10 +62,10 @@ export function OnlineLevelsSection({
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
             <h3 className="mb-2 font-display text-3xl font-black text-navy sm:text-4xl">
-              Choose Your Level
+              {t.online.choose}
             </h3>
             <p className="text-sm text-navy/70 sm:text-base">
-              Two brand-new 8-week online tracks — pick the one that fits you
+              {t.online.chooseBody}
             </p>
           </div>
 
@@ -97,15 +104,15 @@ export function OnlineLevelsSection({
 
                   <div className="mb-6 space-y-1 border-t border-gray-100 pt-5">
                     <p className="font-display text-2xl font-black text-navy">
-                      {track.monthlyPrice} SAR{" "}
+                      {track.monthlyPrice} {locale === "ar" ? "ريال" : "SAR"}{" "}
                       <span className="text-sm font-medium text-gray-500">
-                        per month
+                        {t.online.perMonth}
                       </span>
                     </p>
                     <p className="text-sm font-semibold text-teal">
-                      {track.fullPrice} SAR{" "}
+                      {track.fullPrice} {locale === "ar" ? "ريال" : "SAR"}{" "}
                       <span className="font-normal text-gray-500">
-                        full course — 2 months (8 weeks)
+                        {t.online.fullCourse}
                       </span>
                     </p>
                   </div>
@@ -116,7 +123,7 @@ export function OnlineLevelsSection({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Enroll via WhatsApp
+                      {t.online.enroll}
                       <ArrowUpRight size={18} />
                     </a>
                   </Button>
@@ -127,10 +134,10 @@ export function OnlineLevelsSection({
 
           <div className="mx-auto mt-16 max-w-4xl">
             <h3 className="mb-8 text-center font-display text-3xl font-black text-navy">
-              What&apos;s Included
+              {t.online.included}
             </h3>
             <div className="grid gap-4 sm:grid-cols-2">
-              {ONLINE_INCLUDES.map((item) => (
+              {includes.map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal">
                     <Check size={14} strokeWidth={3} className="text-white" />
@@ -146,8 +153,8 @@ export function OnlineLevelsSection({
       <div className="bg-navy px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-10 md:flex-row md:items-start">
           <div>
-            <h4 className="mb-5 text-sm font-bold tracking-widest text-gold uppercase">
-              Get In Touch
+            <h4 className="mb-5 text-sm font-bold tracking-widest text-gold">
+              {t.online.getInTouch}
             </h4>
             <ul className="space-y-3 text-sm">
               {contact.websiteUrl ? (
@@ -173,7 +180,7 @@ export function OnlineLevelsSection({
               <li className="flex items-center gap-3">
                 <span className="h-2 w-2 rounded-full bg-teal-light" />
                 <a href={phoneHref} className="text-white hover:text-gold">
-                  Call / WhatsApp: {contact.phoneDisplay}
+                  {t.online.callWhatsapp} {contact.phoneDisplay}
                 </a>
               </li>
             </ul>
@@ -195,7 +202,7 @@ export function OnlineLevelsSection({
                 className="h-40 w-40"
               />
             </a>
-            <p className="text-sm font-medium text-gold">Scan to WhatsApp us</p>
+            <p className="text-sm font-medium text-gold">{t.online.scan}</p>
           </div>
         </div>
       </div>

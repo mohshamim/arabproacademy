@@ -88,6 +88,29 @@ h4 {
   font-family: var(--font-naskh), "Noto Naskh Arabic", serif;
 }
 
+.font-kufi {
+  font-family: var(--font-kufi), "Noto Kufi Arabic", sans-serif;
+}
+
+html[lang="ar"] body {
+  font-family: var(--font-kufi), "Noto Kufi Arabic", sans-serif;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4 {
+  font-family: var(--font-kufi), "Noto Kufi Arabic", sans-serif;
+}
+
+html[lang="ar"] .admin-app,
+html[lang="ar"] .admin-app h1,
+html[lang="ar"] .admin-app h2,
+html[lang="ar"] .admin-app h3,
+html[lang="ar"] .admin-app h4 {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
 .gold-gradient {
   background: linear-gradient(135deg, #c4962a, #e8c66b, #c4962a);
 }

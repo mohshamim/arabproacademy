@@ -2,33 +2,36 @@ import { ArrowUpRight, Check, Star } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { PRICING, WHATSAPP_NUMBER, whatsappEnrollUrl } from "@/lib/content"
+import { getCopy } from "@/lib/copy"
+import type { Locale } from "@/lib/locale"
 import { cn } from "@/lib/utils"
 import type { PublicPricing } from "@/lib/site-data"
 
 export function PricingSection({
   plans = PRICING as unknown as PublicPricing[],
   whatsappNumber = WHATSAPP_NUMBER,
+  locale = "en",
 }: {
   plans?: PublicPricing[]
   whatsappNumber?: string
+  locale?: Locale
 }) {
+  const t = getCopy(locale)
   return (
     <section id="pricing" className="bg-cream py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold tracking-widest text-teal uppercase">
-            Pricing
+          <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
+            {t.pricing.eyebrow}
           </p>
           <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
-            Invest in Your
+            {t.pricing.title}
             <br />
-            <span className="text-gold-gradient">Arabic Fluency</span>
+            <span className="text-gold-gradient">{t.pricing.titleGold}</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />
           <p className="mx-auto max-w-xl text-base leading-relaxed text-gray-500">
-            Simple, transparent pricing. Most students choose the 3-month
-            package — it&apos;s the complete journey to confident spoken Arabic
-            and saves you 798 SAR.
+            {t.pricing.body}
           </p>
         </div>
 
@@ -45,7 +48,7 @@ export function PricingSection({
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-gradient-to-r from-gold to-gold-light px-5 py-2 text-xs font-bold tracking-wider text-navy uppercase shadow-lg">
-                  <Star size={14} /> Most Popular
+                  <Star size={14} /> {t.pricing.popular}
                 </div>
               )}
 
@@ -89,8 +92,7 @@ export function PricingSection({
                 </div>
                 {plan.popular && (
                   <p className="mt-2 flex items-center gap-1 text-xs font-semibold text-teal">
-                    <Star size={12} fill="currentColor" /> Best value — save 798
-                    SAR vs monthly
+                    {t.pricing.save}
                   </p>
                 )}
               </div>
@@ -142,8 +144,7 @@ export function PricingSection({
         </div>
 
         <p className="mt-10 text-center text-sm text-gray-400">
-          Prices in Saudi Riyal (SAR). Limited seats per batch — reserve yours
-          today.
+          {t.pricing.footnote}
         </p>
       </div>
     </section>

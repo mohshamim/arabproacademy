@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
-import { Inter, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google"
+import { Inter, Noto_Kufi_Arabic, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google"
 
 import "./globals.css"
+import { getLocale } from "@/lib/locale"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,6 +22,12 @@ const notoNaskh = Noto_Naskh_Arabic({
   weight: ["400", "500", "600", "700"],
 })
 
+const notoKufi = Noto_Kufi_Arabic({
+  variable: "--font-kufi",
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+})
+
 export const metadata: Metadata = {
   title: "Arab Pro Academy — Master Spoken Arabic in 3 Months | Riyadh",
   description:
@@ -33,17 +40,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
-}>) {
+}) {
+  const locale = await getLocale()
+
   return (
     <html
-      lang="en"
-      className={`${inter.variable} ${playfair.variable} ${notoNaskh.variable} h-full`}
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className={`${inter.variable} ${playfair.variable} ${notoNaskh.variable} ${notoKufi.variable} h-full`}
     >
       <body className="min-h-full font-sans antialiased">{children}</body>
     </html>
   )
 }
+

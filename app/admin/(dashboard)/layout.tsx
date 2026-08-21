@@ -15,12 +15,14 @@ export default async function AdminDashboardLayout({
   }
 
   return (
-    <AdminShell
-      role={session.user.role}
-      email={session.user.email}
-      signOutAction={signOutAction}
-    >
-      {children}
-    </AdminShell>
+    <div dir="ltr" lang="en" className="admin-app">
+      <AdminShell
+        role={session.user.role}
+        email={session.user.email}
+        signOutAction={signOutAction}
+      >
+        {children}
+      </AdminShell>
+    </div>
   )
 }

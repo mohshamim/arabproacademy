@@ -9,6 +9,9 @@ import {
 } from "lucide-react"
 
 import { WHY_ITEMS } from "@/lib/content"
+import { WHY_ITEMS_AR } from "@/lib/content-ar"
+import { getCopy } from "@/lib/copy"
+import type { Locale } from "@/lib/locale"
 
 const ICONS: Record<string, LucideIcon> = {
   briefcase: Briefcase,
@@ -19,29 +22,30 @@ const ICONS: Record<string, LucideIcon> = {
   award: Award,
 }
 
-export function WhySection() {
+export function WhySection({ locale = "en" }: { locale?: Locale }) {
+  const t = getCopy(locale)
+  const items = locale === "ar" ? WHY_ITEMS_AR : WHY_ITEMS
+
   return (
     <section id="why" className="bg-white py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold tracking-widest text-teal uppercase">
-            Why Learn Arabic
+          <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
+            {t.why.eyebrow}
           </p>
           <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
-            Your Career Deserves
+            {t.why.title}
             <br />
-            <span className="text-gold-gradient">This Advantage</span>
+            <span className="text-gold-gradient">{t.why.titleGold}</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />
           <p className="mx-auto max-w-xl text-base leading-relaxed text-gray-500">
-            In the competitive Gulf job market, spoken Arabic separates
-            professionals who thrive from those who plateau. Here&apos;s why our
-            students invest in fluency.
+            {t.why.body}
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {WHY_ITEMS.map((item) => {
+          {items.map((item) => {
             const Icon = ICONS[item.icon]
             return (
               <div

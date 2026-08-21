@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { submitCallbackLead } from "@/app/actions/leads"
+import { getCopy } from "@/lib/copy"
+import type { Locale } from "@/lib/locale"
 import type { SiteContactSettings } from "@/lib/site-settings"
 
 export function ContactSection({
@@ -14,12 +16,15 @@ export function ContactSection({
   whatsappUrl,
   phoneHref,
   interestOptions,
+  locale = "en",
 }: {
   contact: SiteContactSettings
   whatsappUrl: string
   phoneHref: string
   interestOptions: { value: string; label: string }[]
+  locale?: Locale
 }) {
+  const t = getCopy(locale)
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [interest, setInterest] = useState(interestOptions[0]?.value ?? "")
@@ -36,6 +41,7 @@ export function ContactSection({
       name,
       phone,
       interest: interestLabel,
+      locale,
     })
     setPending(false)
     if (!result.ok) {
@@ -49,18 +55,17 @@ export function ContactSection({
     <section id="contact" className="bg-cream py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold tracking-widest text-teal uppercase">
-            Get In Touch
+          <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
+            {t.contact.eyebrow}
           </p>
           <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
-            Start Your Arabic
+            {t.contact.title}
             <br />
-            <span className="text-gold-gradient">Journey Today</span>
+            <span className="text-gold-gradient">{t.contact.titleGold}</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />
           <p className="mx-auto max-w-xl text-base leading-relaxed text-gray-500">
-            Have a question or ready to enroll? Reach out — we respond within
-            minutes during business hours.
+            {t.contact.body}
           </p>
         </div>
 
@@ -79,7 +84,7 @@ export function ContactSection({
                 <div className="font-semibold text-navy">WhatsApp</div>
                 <div className="text-gold">{contact.phoneDisplay}</div>
                 <div className="text-sm text-gray-500">
-                  Fastest response — chat with us now
+                  {t.contact.whatsappHint}
                 </div>
               </div>
             </a>
@@ -92,10 +97,10 @@ export function ContactSection({
                 <Phone size={22} />
               </div>
               <div>
-                <div className="font-semibold text-navy">Call Us</div>
+                <div className="font-semibold text-navy">{t.contact.call}</div>
                 <div className="text-gold">{contact.phoneDisplay}</div>
                 <div className="text-sm text-gray-500">
-                  Speak with our admissions team
+                  {t.contact.callHint}
                 </div>
               </div>
             </a>
@@ -108,10 +113,12 @@ export function ContactSection({
                 <Mail size={22} />
               </div>
               <div>
-                <div className="font-semibold text-navy">Email</div>
+                <div className="font-semibold text-navy">
+                  {locale === "ar" ? "البريد" : "Email"}
+                </div>
                 <div className="break-all text-gold">{contact.email}</div>
                 <div className="text-sm text-gray-500">
-                  We reply within 24 hours
+                  {t.contact.emailHint}
                 </div>
               </div>
             </a>
@@ -121,10 +128,12 @@ export function ContactSection({
                 <MapPin size={22} />
               </div>
               <div>
-                <div className="font-semibold text-navy">Location</div>
+                <div className="font-semibold text-navy">
+                  {locale === "ar" ? "الموقع" : "Location"}
+                </div>
                 <div className="text-navy">{contact.location}</div>
                 <div className="text-sm text-gray-500">
-                  In-person & online classes available
+                  {t.contact.locationHint}
                 </div>
               </div>
             </div>
@@ -132,27 +141,26 @@ export function ContactSection({
 
           <div className="rounded-3xl bg-navy p-8 sm:p-10">
             <h3 className="mb-2 font-display text-2xl font-bold text-white">
-              Request a Callback
+              {t.contact.formTitle}
             </h3>
             <p className="mb-8 text-sm text-gray-400">
-              Fill this form and we&apos;ll call you back with batch details and
-              pricing.
+              {t.contact.formBody}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name">{t.contact.name}</Label>
                 <Input
                   id="name"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Your full name"
+                  placeholder={t.contact.namePh}
                   className="border-white/10 bg-white/5 text-white placeholder:text-gray-500"
                 />
               </div>
               <div>
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">{t.contact.phone}</Label>
                 <Input
                   id="phone"
                   required
@@ -164,7 +172,7 @@ export function ContactSection({
                 />
               </div>
               <div>
-                <Label htmlFor="interest">Interested In</Label>
+                <Label htmlFor="interest">{t.contact.interest}</Label>
                 <select
                   id="interest"
                   value={interest}
@@ -183,10 +191,10 @@ export function ContactSection({
               ) : null}
               <Button type="submit" size="lg" className="mt-2 w-full" disabled={pending}>
                 <Send size={18} />
-                {pending ? "Saving…" : "Send via WhatsApp"}
+                {pending ? t.contact.sending : t.contact.send}
               </Button>
               <p className="text-center text-xs text-gray-500">
-                No spam. We only call to discuss your enrollment.
+                {t.contact.noSpam}
               </p>
             </form>
           </div>

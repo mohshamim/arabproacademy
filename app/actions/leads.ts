@@ -7,16 +7,26 @@ export async function submitCallbackLead(input: {
   name: string
   phone: string
   interest: string
+  locale?: "en" | "ar"
 }) {
   const name = input.name.trim()
   const phone = input.phone.trim()
   const interest = input.interest.trim()
 
   if (!name || !phone) {
-    return { ok: false as const, error: "Name and phone are required." }
+    return {
+      ok: false as const,
+      error:
+        input.locale === "ar"
+          ? "الاسم والجوال مطلوبان."
+          : "Name and phone are required.",
+    }
   }
 
-  const message = `Hi Arab Pro Academy! My name is ${name}. Phone: ${phone}. Interested in: ${interest}. Please call me back.`
+  const message =
+    input.locale === "ar"
+      ? `مرحباً أكاديمية عرب برو، اسمي ${name}. الجوال: ${phone}. مهتم بـ: ${interest}. أرجو الاتصال بي.`
+      : `Hi Arab Pro Academy! My name is ${name}. Phone: ${phone}. Interested in: ${interest}. Please call me back.`
 
   await createLead({
     type: "CONTACT",

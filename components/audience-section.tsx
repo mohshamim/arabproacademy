@@ -9,6 +9,9 @@ import {
 } from "lucide-react"
 
 import { AUDIENCES } from "@/lib/content"
+import { AUDIENCES_AR } from "@/lib/content-ar"
+import { getCopy } from "@/lib/copy"
+import type { Locale } from "@/lib/locale"
 
 const ICONS: Record<string, LucideIcon> = {
   briefcase: Briefcase,
@@ -19,29 +22,30 @@ const ICONS: Record<string, LucideIcon> = {
   search: Search,
 }
 
-export function AudienceSection() {
+export function AudienceSection({ locale = "en" }: { locale?: Locale }) {
+  const t = getCopy(locale)
+  const items = locale === "ar" ? AUDIENCES_AR : AUDIENCES
+
   return (
     <section className="bg-white py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold tracking-widest text-teal uppercase">
-            Who Is It For
+          <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
+            {t.audience.eyebrow}
           </p>
           <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
-            Built for Every
+            {t.audience.title}
             <br />
-            <span className="text-gold-gradient">Ambitious Learner</span>
+            <span className="text-gold-gradient">{t.audience.titleGold}</span>
           </h2>
           <div className="section-divider mx-auto mb-6" />
           <p className="mx-auto max-w-xl text-base leading-relaxed text-gray-500">
-            Whether you&apos;re advancing your career, starting fresh in Riyadh,
-            or seeking deeper cultural connection — our program adapts to your
-            goal.
+            {t.audience.body}
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {AUDIENCES.map((item) => {
+          {items.map((item) => {
             const Icon = ICONS[item.icon]
             return (
               <div

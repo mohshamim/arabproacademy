@@ -3,7 +3,10 @@ import Link from "next/link"
 import { prismaReady, hasDatabaseUrl } from "@/lib/prisma"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { LanguageSwitch } from "@/components/language-switch"
 import { WHATSAPP_URL, PHONE_HREF, whatsappEnrollUrl } from "@/lib/content"
+import { getCopy } from "@/lib/copy"
+import { getLocale } from "@/lib/locale"
 import { DEFAULT_CONTACT } from "@/lib/site-settings"
 import { submitPlacementQuiz } from "@/app/placement/actions"
 
@@ -23,6 +26,8 @@ export default async function PlacementPage({
     error?: string
   }>
 }) {
+  const locale = await getLocale()
+  const t = getCopy(locale)
   const sp = (await searchParams) || {}
 
   let questions: {
@@ -51,67 +56,68 @@ export default async function PlacementPage({
   const total = Number(sp.total || 0)
   const level = sp.level === "intermediate" ? "intermediate" : "beginner"
   const wa = whatsappEnrollUrl(
-    `Hi, I took the placement quiz (${score}/${total}) and was placed at ${level}. I want to enroll.`,
+    t.placement.waMessage(
+      score,
+      total,
+      level === "intermediate" ? t.placement.intermediate : t.placement.beginner,
+    ),
   )
 
   return (
     <div className="min-h-screen bg-cream">
-      <Navbar />
+      <Navbar locale={locale} />
       <main className="mx-auto max-w-3xl px-4 pt-28 pb-16">
-        <p className="text-xs font-semibold tracking-[0.18em] text-gold uppercase">
-          2-minute check
+        <p className="text-xs font-semibold tracking-[0.18em] text-gold">
+          {t.placement.eyebrow}
         </p>
         <h1 className="mt-2 font-display text-4xl font-black text-navy">
-          Spoken Arabic placement
+          {t.placement.title}
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-gray-600">
-          No grammar exam. This tells us whether Beginner or Intermediate fits
-          you. After you finish, WhatsApp us to enroll — we do not use a long
-          checkout.
+          {t.placement.body}
         </p>
 
         {sp.error === "unavailable" || (!sp.score && questions.length === 0) ? (
           <div className="mt-8 rounded-2xl border border-gold/30 bg-white p-6">
             <p className="text-sm text-gray-700">
-              The quiz is not live yet. Message us and we will place you in
-              class.
+              {t.placement.unavailable}
             </p>
             <a
               href={WHATSAPP_URL}
               className="mt-4 inline-flex rounded-xl bg-[#25D366] px-4 py-2 text-sm font-semibold text-white"
             >
-              WhatsApp the academy
+              {t.placement.whatsapp}
             </a>
           </div>
         ) : null}
 
         {sp.score ? (
           <div className="mt-8 rounded-3xl border border-gold/25 bg-white p-8 text-center shadow-sm">
-            <p className="text-xs font-semibold tracking-widest text-gold uppercase">
-              Your result
+            <p className="text-xs font-semibold tracking-widest text-gold">
+              {t.placement.result}
             </p>
             <p className="mt-3 font-display text-5xl font-bold text-navy">
               {score}/{total}
             </p>
             <p className="mt-4 text-lg font-semibold text-navy">
-              Recommended:{" "}
-              {level === "intermediate" ? "Online Intermediate" : "Beginner / 3-month spoken"}
+              {t.placement.recommended}{" "}
+              {level === "intermediate" ? t.placement.intermediate : t.placement.beginner}
             </p>
             <p className="mt-2 text-sm text-gray-600">
-              The teacher will confirm on a short WhatsApp voice chat.
+              {t.placement.confirm}
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <a
                 href={wa}
                 className="inline-flex rounded-xl bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white"
               >
-                Enroll on WhatsApp
+                {t.placement.enroll}
               </a>
               <Link
                 href="/#pricing"
                 className="inline-flex rounded-xl border border-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-navy"
               >
-                See pricing
+                {t.placement.pricing}
               </Link>
             </div>
           </div>
@@ -121,13 +127,13 @@ export default async function PlacementPage({
               <input
                 name="name"
                 required
-                placeholder="Your name"
+                placeholder={t.placement.name}
                 className="rounded-xl border border-gray-200 px-3 py-2.5 text-sm"
               />
               <input
                 name="phone"
                 required
-                placeholder="WhatsApp number"
+                placeholder={t.placement.phone}
                 className="rounded-xl border border-gray-200 px-3 py-2.5 text-sm"
               />
             </div>
@@ -172,14 +178,14 @@ export default async function PlacementPage({
               type="submit"
               className="w-full rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white"
             >
-              See my level
+              {t.placement.submit}
             </button>
           </form>
         ) : null}
 
         <p className="mt-10 text-center text-xs text-gray-500">
           <Link href="/" className="hover:text-gold">
-            ← Back to Arab Pro Academy
+            {t.placement.back}
           </Link>
         </p>
       </main>
@@ -187,7 +193,9 @@ export default async function PlacementPage({
         contact={DEFAULT_CONTACT}
         whatsappUrl={WHATSAPP_URL}
         phoneHref={PHONE_HREF}
+        locale={locale}
       />
+      <LanguageSwitch locale={locale} variant="float" />
     </div>
   )
 }

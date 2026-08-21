@@ -7,24 +7,29 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { FAQS } from "@/lib/content"
+import { getCopy } from "@/lib/copy"
+import type { Locale } from "@/lib/locale"
 import type { PublicFaq } from "@/lib/site-data"
 
 export function FaqSection({
   faqs = FAQS.map((f) => ({ q: f.q, a: f.a })),
+  locale = "en",
 }: {
   faqs?: PublicFaq[]
+  locale?: Locale
 }) {
+  const t = getCopy(locale)
   return (
     <section id="faq" className="bg-white py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold tracking-widest text-teal uppercase">
-            Questions
+          <p className="mb-3 text-sm font-semibold tracking-widest text-teal">
+            {t.faq.eyebrow}
           </p>
           <h2 className="mb-4 font-display text-4xl font-black text-navy sm:text-5xl">
-            Frequently Asked
+            {t.faq.title}
             <br />
-            <span className="text-gold-gradient">Questions</span>
+            <span className="text-gold-gradient">{t.faq.titleGold}</span>
           </h2>
           <div className="section-divider mx-auto" />
         </div>
