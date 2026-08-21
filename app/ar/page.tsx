@@ -1,14 +1,13 @@
 import type { Metadata } from "next"
 import { HomePage } from "@/components/home-page"
-import { getLocale } from "@/lib/locale"
 import { buildPageMetadata } from "@/lib/seo"
 
 export const dynamic = "force-dynamic"
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata("home", await getLocale())
+  return buildPageMetadata("home", "ar")
 }
 
-export default async function Home() {
-  return <HomePage locale={await getLocale()} />
+export default function ArabicHome() {
+  return <HomePage locale="ar" />
 }

@@ -38,6 +38,8 @@ export const viewport: Viewport = {
   themeColor: "#0d1b2a",
 }
 
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale()
   return buildPageMetadata("home", locale)

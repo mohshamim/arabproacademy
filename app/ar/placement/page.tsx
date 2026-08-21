@@ -1,15 +1,14 @@
 import type { Metadata } from "next"
 import { PlacementScreen } from "@/components/placement-screen"
-import { getLocale } from "@/lib/locale"
 import { buildPageMetadata } from "@/lib/seo"
 
 export const dynamic = "force-dynamic"
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata("placement", await getLocale())
+  return buildPageMetadata("placement", "ar")
 }
 
-export default async function PlacementPage({
+export default async function ArabicPlacementPage({
   searchParams,
 }: {
   searchParams?: Promise<{
@@ -20,7 +19,5 @@ export default async function PlacementPage({
     error?: string
   }>
 }) {
-  return (
-    <PlacementScreen locale={await getLocale()} searchParams={searchParams} />
-  )
+  return <PlacementScreen locale="ar" searchParams={searchParams} />
 }

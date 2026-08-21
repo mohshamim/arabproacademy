@@ -5,6 +5,15 @@ import { authConfig } from "./auth.config"
 const { auth } = NextAuth(authConfig)
 const LOCALE_COOKIE = "apa_locale"
 
+function withLocaleCookie(headerValue: string | null, locale: "en" | "ar") {
+  const parts = (headerValue || "")
+    .split(";")
+    .map((part) => part.trim())
+    .filter((part) => part && !part.startsWith(`${LOCALE_COOKIE}=`))
+  parts.push(`${LOCALE_COOKIE}=${locale}`)
+  return parts.join("; ")
+}
+
 export default auth((req) => {
   const { pathname } = req.nextUrl
 
@@ -16,27 +25,22 @@ export default auth((req) => {
     return
   }
 
-  const isAr = pathname === "/ar" || pathname.startsWith("/ar/")
+  const locale = pathname === "/ar" || pathname.startsWith("/ar/") ? "ar" : "en"
   const requestHeaders = new Headers(req.headers)
-  requestHeaders.set("x-locale", isAr ? "ar" : "en")
+  requestHeaders.set("x-apa-locale", locale)
+  requestHeaders.set("x-locale", locale)
+  requestHeaders.set("x-apa-path", pathname)
+  requestHeaders.set("cookie", withLocaleCookie(req.headers.get("cookie"), locale))
 
-  if (isAr) {
-    const url = req.nextUrl.clone()
-    url.pathname = pathname.replace(/^\/ar/, "") || "/"
-    const res = NextResponse.rewrite(url, {
-      request: { headers: requestHeaders },
-    })
-    res.cookies.set(LOCALE_COOKIE, "ar", {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 365,
-      sameSite: "lax",
-    })
-    return res
-  }
-
-  return NextResponse.next({
+  const res = NextResponse.next({
     request: { headers: requestHeaders },
   })
+  res.cookies.set(LOCALE_COOKIE, locale, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax",
+  })
+  return res
 })
 
 export const config = {
