@@ -168,6 +168,9 @@ export default async function AdminOverviewPage() {
             <Link href="/admin/exams" className="rounded-lg border border-[#e5e7eb] px-3 py-1.5 text-[#374151]">
               Score oral exam
             </Link>
+            <Link href="/admin/guide" className="rounded-lg border border-[#e5e7eb] px-3 py-1.5 text-[#374151]">
+              How to use this admin
+            </Link>
           </div>
         </AdminCard>
       </div>

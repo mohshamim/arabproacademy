@@ -147,3 +147,11 @@ Import in phpMyAdmin (does not wipe existing tables):
 Redeploy, then **Seed content now** to load the public placement quiz (`/placement`). Certificates verify at `/verify/APA-XXXXXX`.
 
 Change the admin password after first login (create a second Super Admin, then stop using the env default).
+
+## J) Teacher guide (how to use the admin)
+
+After login, open **How to use** in the left menu (`/admin/guide`).
+
+Same text in the repo: `docs/TEACHER-ADMIN.md`
+
+Simple flow: Leads → enroll as Student → Batch → Attendance each class → homework voice notes → Oral exam → Certificate. Website visitors take `/placement`. Certificates verify at `/verify/APA-XXXXXX`. Enrollment stays on WhatsApp.

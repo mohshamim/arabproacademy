@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import {
   Award,
   BookOpen,
+  BookText,
   ChevronRight,
   ClipboardCheck,
   HelpCircle,
@@ -43,6 +44,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/admin", label: "Overview", icon: LayoutDashboard },
       { href: "/admin/leads", label: "Leads", icon: Inbox },
+      { href: "/admin/guide", label: "How to use", icon: BookText },
     ],
   },
   {
@@ -91,6 +93,7 @@ const CRUMB_LABELS: Record<string, string> = {
   faq: "FAQ",
   settings: "Settings",
   admins: "Admins",
+  guide: "How to use",
 }
 
 function isActive(pathname: string, href: string) {
