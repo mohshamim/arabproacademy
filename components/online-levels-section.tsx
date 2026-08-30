@@ -2,7 +2,7 @@ import Image from "next/image"
 import { ArrowUpRight, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { ONLINE_INCLUDES, ONLINE_LEVELS, whatsappEnrollUrl } from "@/lib/content"
+import { LOGO_SRC, ONLINE_INCLUDES, ONLINE_LEVELS, whatsappEnrollUrl } from "@/lib/content"
 import { ONLINE_INCLUDES_AR } from "@/lib/content-ar"
 import { getCopy } from "@/lib/copy"
 import type { Locale } from "@/lib/locale"
@@ -40,11 +40,11 @@ export function OnlineLevelsSection({
       <div className="theme-panel bg-navy px-4 py-10 text-center sm:px-6 sm:py-14 lg:px-8">
         <div className="mx-auto mb-6 flex justify-center">
           <Image
-            src="/logo.svg"
+            src={LOGO_SRC}
             alt="Arab Pro Academy"
-            width={88}
-            height={88}
-            className="h-20 w-20 rounded-full object-cover shadow-xl shadow-gold/20 ring-4 ring-gold sm:h-24 sm:w-24"
+            width={128}
+            height={128}
+            className="h-24 w-24 rounded-full object-contain shadow-xl shadow-gold/20 sm:h-32 sm:w-32"
           />
         </div>
         <h2 className="mb-3 font-display text-2xl font-black tracking-wide text-gold sm:text-5xl">

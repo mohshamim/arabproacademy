@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter, Noto_Kufi_Arabic, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google"
 
 import "./globals.css"
+import { Analytics } from "@/components/analytics"
 import { getLocale } from "@/lib/locale"
 import { getTheme } from "@/lib/theme"
 import { buildPageMetadata } from "@/lib/seo"
@@ -58,7 +59,10 @@ export default async function RootLayout({
       data-theme={theme}
       className={`${inter.variable} ${playfair.variable} ${notoNaskh.variable} ${notoKufi.variable} h-full ${theme === "light" ? "theme-light" : "theme-dark"}`}
     >
-      <body className="min-h-full overflow-x-hidden font-sans antialiased">{children}</body>
+      <body className="min-h-full overflow-x-hidden font-sans antialiased">
+        <Analytics />
+        {children}
+      </body>
     </html>
   )
 }

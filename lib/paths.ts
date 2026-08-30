@@ -15,3 +15,9 @@ export function localizedPath(path: string, locale: Locale) {
   if (clean === "/") return "/ar"
   return `/ar${clean}`
 }
+
+/** Section hash that still works from inner pages (`/#pricing`, `/ar#pricing`). */
+export function homeHash(hash: string, locale: Locale) {
+  const id = hash.startsWith("#") ? hash : `#${hash}`
+  return `${localizedPath("/", locale)}${id}`
+}

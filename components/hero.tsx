@@ -2,7 +2,7 @@ import Image from "next/image"
 import { ChevronDown, MessageCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { STATS } from "@/lib/content"
+import { LOGO_SRC, STATS } from "@/lib/content"
 import { getCopy } from "@/lib/copy"
 import type { Locale } from "@/lib/locale"
 import { localizedPath } from "@/lib/paths"
@@ -28,11 +28,11 @@ export function Hero({
       <div className="relative z-10 mx-auto max-w-6xl px-4 pt-24 pb-28 text-center sm:px-6 sm:pt-28 sm:pb-20 lg:px-8">
         <div className="animate-fade-up mb-5 flex justify-center sm:mb-8">
           <Image
-            src="/logo.svg"
+            src={LOGO_SRC}
             alt="Arab Pro Academy logo — spoken Arabic school in Riyadh for non-native speakers"
-            width={112}
-            height={112}
-            className="h-20 w-20 rounded-full object-cover shadow-2xl shadow-gold/20 ring-4 ring-gold sm:h-28 sm:w-28"
+            width={160}
+            height={160}
+            className="h-28 w-28 rounded-full object-contain shadow-2xl shadow-gold/20 sm:h-40 sm:w-40"
             priority
           />
         </div>

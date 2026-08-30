@@ -1,7 +1,17 @@
 import type { MetadataRoute } from "next"
 import { SITE_URL } from "@/lib/seo"
 
-const pages = ["/", "/placement", "/privacy", "/terms"]
+const pages = [
+  "/",
+  "/spoken-arabic-riyadh",
+  "/arabic-crash-course-riyadh",
+  "/learn-arabic-fast",
+  "/arabic-for-expats-riyadh",
+  "/online-arabic-saudi-gcc",
+  "/placement",
+  "/privacy",
+  "/terms",
+]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()
@@ -12,8 +22,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return {
       url: en,
       lastModified,
-      changeFrequency: path === "/" ? "weekly" : "monthly",
-      priority: path === "/" ? 1 : 0.7,
+      changeFrequency: path === "/" ? "weekly" : path.startsWith("/p") ? "monthly" : "weekly",
+      priority:
+        path === "/"
+          ? 1
+          : path === "/privacy" || path === "/terms"
+            ? 0.3
+            : path === "/placement"
+              ? 0.7
+              : 0.85,
       alternates: {
         languages: {
           en: en,

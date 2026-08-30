@@ -3,7 +3,7 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`
 export const PHONE_DISPLAY = "+966574915561"
 export const PHONE_HREF = "tel:+966574915561"
 export const EMAIL = "arabpacademy@gmail.com"
-export const LOGO_SRC = "/logo.svg"
+export const LOGO_SRC = "/logo.png"
 
 export function whatsappEnrollUrl(message: string, number = WHATSAPP_NUMBER) {
   const digits = number.replace(/\D/g, "")
@@ -295,5 +295,17 @@ export const FAQS = [
   {
     q: "Can I join online from the UAE, Qatar, Kuwait, or India?",
     a: "Yes. In-person batches meet in Riyadh. The same teachers run live online classes for learners across Saudi Arabia, the GCC, and India. Enrollment is on WhatsApp — no long checkout.",
+  },
+  {
+    q: "Is this a crash course or a long academic program?",
+    a: "A crash course. You attend 3 days a week for 3 months. The goal is everyday conversation in Riyadh — not a two-year diploma or university fus'ha.",
+  },
+  {
+    q: "How fast can a complete beginner start speaking?",
+    a: "Most beginners use greetings and shopping phrases in the first weeks. A short everyday conversation is the 3-month target if you attend and practise on WhatsApp.",
+  },
+  {
+    q: "Can I join a crash course online from Jeddah or Dammam?",
+    a: "Yes. In-person intensive batches are in Riyadh. Live online uses the same teachers for Jeddah, Dammam, and the rest of Saudi — plus UAE, Qatar, Kuwait, and India.",
   },
 ] as const

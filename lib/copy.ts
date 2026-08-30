@@ -16,11 +16,11 @@ export const COPY = {
     },
     hero: {
       certified: "Certified",
-      badge: "Now Enrolling — Riyadh, KSA",
+      badge: "Crash course now enrolling — Riyadh",
       titleLead: "Master",
       titleGold: "Spoken Arabic",
       titleRest: "in Just 3 Months",
-      body: "Spoken Arabic classes for non-native speakers — Indian professionals, GCC expats, and beginners in Riyadh. In-person or live online. Speak with confidence in 3 months.",
+      body: "Spoken Arabic crash course in Riyadh for Indian, Filipino, and Pakistani expats. Learn conversation fast — 3 days a week in person, or live online across Saudi and the GCC.",
       tagline: "أكاديمية العرب برو — ابدأ رحلتك اليوم",
       ctaPricing: "View Pricing & Enroll",
       ctaWhatsapp: "WhatsApp Us",
@@ -106,9 +106,9 @@ export const COPY = {
     },
     footer: {
       blurb:
-        "Helping expats, students, and professionals master spoken Arabic and accelerate their careers across Saudi Arabia and the Gulf.",
+        "Helping Indian and other expats in Riyadh master spoken Arabic fast — crash course in person, live online across Saudi and the Gulf.",
       seoLine:
-        "Spoken Arabic classes in Riyadh for non-native speakers. Live online for learners in the UAE, Qatar, Kuwait, Bahrain, Oman, and India.",
+        "Spoken Arabic crash course in Riyadh for non-native speakers. Quick 3-month path. Live online for Jeddah, Dammam, UAE, Qatar, Kuwait, and India.",
       links: "Quick Links",
       why: "Why Learn Arabic",
       courseDetails: "Course Details",
@@ -158,11 +158,11 @@ export const COPY = {
     },
     hero: {
       certified: "معتمد",
-      badge: "التسجيل مفتوح — الرياض، السعودية",
+      badge: "دورة مكثفة — التسجيل مفتوح في الرياض",
       titleLead: "أتقن",
       titleGold: "العربية المحكية",
       titleRest: "خلال 3 أشهر فقط",
-      body: "برنامج للمقيمين غير الناطقين بالعربية — المهنيون من الهند والخليج والمبتدئون في الرياض. حضوري أو أونلاين مباشر. تحدّث بثقة خلال 3 أشهر.",
+      body: "دورة عربية محكية مكثفة في الرياض للمقيمين من الهند والفلبين وباكستان. تعلّم المحادثة بسرعة — 3 أيام أسبوعياً حضورياً، أو أونلاين مباشر في السعودية والخليج.",
       tagline: "أكاديمية العرب برو — ابدأ رحلتك اليوم",
       ctaPricing: "شاهد الأسعار وسجّل",
       ctaWhatsapp: "واتساب",
@@ -248,9 +248,9 @@ export const COPY = {
     },
     footer: {
       blurb:
-        "نساعد المقيمين والطلاب والمهنيين على إتقان العربية المحكية وتسريع مسيرتهم في السعودية والخليج.",
+        "نساعد المقيمين من الهند وغيرهم في الرياض على إتقان العربية المحكية بسرعة — دورة مكثفة حضورياً، وأونلاين في السعودية والخليج.",
       seoLine:
-        "دورات عربية محكية في الرياض لغير الناطقين بها. أونلاين مباشر للمتعلمين في الإمارات وقطر والكويت والبحرين وعُمان والهند.",
+        "دورة عربية محكية مكثفة في الرياض لغير الناطقين بها. مسار سريع 3 أشهر. أونلاين لجدة والدمام والإمارات وقطر والكويت والهند.",
       links: "روابط سريعة",
       why: "لماذا العربية",
       courseDetails: "تفاصيل الدورة",

@@ -1,9 +1,11 @@
 import Image from "next/image"
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
 
+import { LOGO_SRC } from "@/lib/content"
 import { getCopy } from "@/lib/copy"
 import type { Locale } from "@/lib/locale"
-import { localizedPath } from "@/lib/paths"
+import { homeHash, localizedPath } from "@/lib/paths"
+import { LANDING_NAV } from "@/lib/seo-landings"
 import type { SiteContactSettings } from "@/lib/site-settings"
 
 export function Footer({
@@ -11,21 +13,24 @@ export function Footer({
   whatsappUrl,
   phoneHref,
   locale = "en",
+  inner = false,
 }: {
   contact: SiteContactSettings
   whatsappUrl: string
   phoneHref: string
   locale?: Locale
+  inner?: boolean
 }) {
   const t = getCopy(locale)
+  const section = (hash: string) => (inner ? homeHash(hash, locale) : hash)
   const links = [
-    { href: "#why", label: t.footer.why },
-    { href: "#courses", label: t.footer.courseDetails },
-    { href: "#online", label: t.footer.onlineLevels },
-    { href: "#pricing", label: t.nav.pricing },
+    { href: section("#why"), label: t.footer.why },
+    { href: section("#courses"), label: t.footer.courseDetails },
+    { href: section("#online"), label: t.footer.onlineLevels },
+    { href: section("#pricing"), label: t.nav.pricing },
     { href: localizedPath("/placement", locale), label: t.nav.placement },
-    { href: "#faq", label: t.nav.faq },
-    { href: "#contact", label: t.nav.contact },
+    { href: section("#faq"), label: t.nav.faq },
+    { href: section("#contact"), label: t.nav.contact },
   ]
   return (
     <footer className="theme-panel border-t border-white/10 bg-navy pt-12 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] sm:pt-16 lg:pb-8">
@@ -34,11 +39,11 @@ export function Footer({
           <div>
             <div className="mb-4 flex items-center gap-3">
               <Image
-                src="/logo.svg"
+                src={LOGO_SRC}
                 alt="Arab Pro Academy — learn spoken Arabic in Riyadh"
-                width={48}
-                height={48}
-                className="h-12 w-12 rounded-full object-cover ring-2 ring-gold"
+                width={56}
+                height={56}
+                className="h-12 w-12 rounded-full object-contain sm:h-14 sm:w-14"
               />
               <div>
                 <div
@@ -73,6 +78,16 @@ export function Footer({
                     className="text-sm text-gray-400 transition-colors hover:text-gold"
                   >
                     {link.label}
+                  </a>
+                </li>
+              ))}
+              {LANDING_NAV.map((item) => (
+                <li key={item.slug}>
+                  <a
+                    href={localizedPath(`/${item.slug}`, locale)}
+                    className="text-sm text-gray-400 transition-colors hover:text-gold"
+                  >
+                    {locale === "ar" ? item.ar : item.en}
                   </a>
                 </li>
               ))}

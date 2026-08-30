@@ -9,9 +9,9 @@ import {
 import {
   getContactSettings,
   getStatsSettings,
-  whatsappDeepLink,
   type SiteContactSettings,
 } from "@/lib/site-settings"
+import { whatsappCampaignUrl } from "@/lib/tracking"
 
 export type PublicFaq = { q: string; a: string }
 export type PublicTestimonial = {
@@ -145,7 +145,11 @@ export async function getPublicContent() {
     }
   }
 
-  const whatsappUrl = whatsappDeepLink(contact.whatsapp)
+  const whatsappUrl = whatsappCampaignUrl(
+    "Hi, I want to enroll in spoken Arabic in Riyadh.",
+    "homepage",
+    contact.whatsapp,
+  )
   const phoneHref = contact.phone.startsWith("tel:")
     ? contact.phone
     : `tel:${contact.phone}`

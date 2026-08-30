@@ -1,6 +1,8 @@
+import Image from "next/image"
 import { redirect } from "next/navigation"
 import { auth } from "@/auth"
 import { LoginForm } from "@/components/admin/login-form"
+import { LOGO_SRC } from "@/lib/content"
 
 export default async function AdminLoginPage() {
   const session = await auth()
@@ -12,9 +14,14 @@ export default async function AdminLoginPage() {
     <div dir="ltr" lang="en" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0d1b2a] px-4 py-10">
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#c4962a] text-sm font-bold text-[#0d1b2a]">
-            APA
-          </span>
+          <Image
+            src={LOGO_SRC}
+            alt="Arab Pro Academy"
+            width={72}
+            height={72}
+            className="h-[72px] w-[72px] rounded-full object-contain"
+            priority
+          />
           <p className="mt-4 text-[11px] font-bold tracking-[0.2em] text-[#c4962a] uppercase">
             Arab Pro Academy
           </p>

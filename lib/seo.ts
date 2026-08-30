@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import type { Locale } from "@/lib/locale"
+import { trackingIds } from "@/lib/tracking"
 
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ||
@@ -12,28 +13,28 @@ export const SITE_PHONE = "+966574915561"
 export const SITE_EMAIL = "arabpacademy@gmail.com"
 
 const TITLES: Record<Locale, string> = {
-  en: "Spoken Arabic Classes in Riyadh for Expats | Arab Pro Academy",
-  ar: "دورة العربية المحكية في الرياض للمقيمين | أكاديمية عرب برو",
+  en: "Spoken Arabic Crash Course in Riyadh for Expats | Arab Pro Academy",
+  ar: "دورة عربية محكية مكثفة في الرياض للمقيمين | أكاديمية عرب برو",
 }
 
 const DESCRIPTIONS: Record<Locale, string> = {
-  en: "Learn spoken Arabic in Riyadh or live online. Built for non-native speakers — Indian professionals, GCC expats, and beginners. 3-month conversational classes, small batches, WhatsApp enrollment.",
-  ar: "تعلّم العربية المحكية في الرياض أو أونلاين مباشر. للمقيمين غير الناطقين بالعربية من الهند والخليج والمبتدئين. دورة محادثة 3 أشهر، دفعات صغيرة، التسجيل عبر واتساب.",
+  en: "Crash-course spoken Arabic in Riyadh for Indian, Filipino, and Pakistani expats. Learn conversation fast — 3 days a week, 3-month intensive, or live online across Saudi and the GCC. Enroll on WhatsApp.",
+  ar: "دورة عربية محكية مكثفة في الرياض للمقيمين من الهند والفلبين وباكستان. تعلّم المحادثة بسرعة — 3 أيام أسبوعياً، مسار 3 أشهر، أو أونلاين مباشر في السعودية والخليج. التسجيل عبر واتساب.",
 }
 
 export const SEO_KEYWORDS = [
   "spoken Arabic classes Riyadh",
-  "Arabic course for expats Saudi Arabia",
-  "learn Arabic in Riyadh",
-  "conversational Arabic for beginners",
-  "Arabic speaking course GCC",
-  "Arabic classes for Indians in Saudi",
-  "online Arabic course UAE Qatar Kuwait",
-  "Gulf Arabic for non-native speakers",
-  "Arabic classes for professionals Riyadh",
-  "learn spoken Arabic India online",
+  "Arabic crash course Riyadh",
+  "learn Arabic fast Saudi",
+  "conversational Arabic for expats Riyadh",
+  "Arabic course for Indians in Riyadh",
+  "quick spoken Arabic course Saudi Arabia",
+  "intensive Arabic classes Riyadh",
+  "Arabic classes for Filipino expats Riyadh",
+  "online spoken Arabic Jeddah Dammam",
+  "live online Arabic UAE Qatar Kuwait",
+  "3 month Arabic crash course",
   "Arabic institute Riyadh expats",
-  "3 month Arabic fluency course",
 ]
 
 export function absoluteUrl(path = "/") {
@@ -60,7 +61,17 @@ export function languageAlternates(path = "/") {
   }
 }
 
-type PageKey = "home" | "placement" | "privacy" | "terms" | "verify"
+type PageKey =
+  | "home"
+  | "placement"
+  | "privacy"
+  | "terms"
+  | "verify"
+  | "spokenArabicRiyadh"
+  | "crashCourse"
+  | "learnFast"
+  | "expatsRiyadh"
+  | "onlineGcc"
 
 const PAGE_COPY: Record<
   PageKey,
@@ -115,6 +126,66 @@ const PAGE_COPY: Record<
       description: "تأكيد شهادة العربية المحكية الصادرة عن أكاديمية عرب برو في الرياض.",
     },
   },
+  spokenArabicRiyadh: {
+    en: {
+      title: "Spoken Arabic Classes in Riyadh for Expats",
+      description:
+        "Conversational Arabic in Riyadh for Indian, Filipino, and Pakistani expats. Small batches, spoken-first, WhatsApp enrollment. In-person or live online.",
+    },
+    ar: {
+      title: "دورة العربية المحكية في الرياض للمقيمين",
+      description:
+        "عربية محادثة في الرياض للمقيمين من الهند والفلبين وباكستان. دفعات صغيرة، محادثة أولاً، التسجيل عبر واتساب. حضوري أو أونلاين مباشر.",
+    },
+  },
+  crashCourse: {
+    en: {
+      title: "Arabic Crash Course in Riyadh | 3-Month Intensive",
+      description:
+        "Intensive spoken Arabic crash course in Riyadh. 3 days a week for 3 months. Built for expats who need conversation fast. Enroll on WhatsApp.",
+    },
+    ar: {
+      title: "دورة عربية مكثفة في الرياض | 3 أشهر",
+      description:
+        "دورة عربية محكية مكثفة في الرياض. 3 أيام أسبوعياً لمدة 3 أشهر. للمقيمين الذين يحتاجون المحادثة بسرعة. التسجيل عبر واتساب.",
+    },
+  },
+  learnFast: {
+    en: {
+      title: "Learn Arabic Fast in Saudi Arabia | Quick Spoken Course",
+      description:
+        "Learn spoken Arabic fast in Saudi Arabia. Beginner-friendly 3-month path in Riyadh or live online. Greetings to workplace talk. WhatsApp to start.",
+    },
+    ar: {
+      title: "تعلّم العربية بسرعة في السعودية | دورة محكية",
+      description:
+        "تعلّم العربية المحكية بسرعة في السعودية. مسار 3 أشهر للمبتدئين في الرياض أو أونلاين مباشر. من التحية إلى حديث العمل. ابدأ عبر واتساب.",
+    },
+  },
+  expatsRiyadh: {
+    en: {
+      title: "Arabic Classes for Indian Expats in Riyadh",
+      description:
+        "English-friendly spoken Arabic for Indian, Filipino, and Pakistani expats in Riyadh. Daily life, clinic, and office conversation. Enroll on WhatsApp.",
+    },
+    ar: {
+      title: "دورة عربية للمقيمين الهنود في الرياض",
+      description:
+        "عربية محكية مريحة للإنجليزية للمقيمين من الهند والفلبين وباكستان في الرياض. حياة يومية وعيادة ومكتب. التسجيل عبر واتساب.",
+    },
+  },
+  onlineGcc: {
+    en: {
+      title: "Online Spoken Arabic Classes in Saudi & GCC",
+      description:
+        "Live online spoken Arabic from Riyadh teachers. For Jeddah, Dammam, UAE, Qatar, Kuwait, and India. Beginner and intermediate tracks. WhatsApp enroll.",
+    },
+    ar: {
+      title: "دورة عربية محكية أونلاين في السعودية والخليج",
+      description:
+        "عربية محكية أونلاين مباشر مع معلمي الرياض. لجدة والدمام والإمارات وقطر والكويت والهند. مبتدئ ومتوسط. التسجيل عبر واتساب.",
+    },
+  },
 }
 
 const PATH_BY_PAGE: Record<PageKey, string> = {
@@ -123,6 +194,11 @@ const PATH_BY_PAGE: Record<PageKey, string> = {
   privacy: "/privacy",
   terms: "/terms",
   verify: "/verify",
+  spokenArabicRiyadh: "/spoken-arabic-riyadh",
+  crashCourse: "/arabic-crash-course-riyadh",
+  learnFast: "/learn-arabic-fast",
+  expatsRiyadh: "/arabic-for-expats-riyadh",
+  onlineGcc: "/online-arabic-saudi-gcc",
 }
 
 export function buildPageMetadata(
@@ -150,6 +226,9 @@ export function buildPageMetadata(
       follow: true,
       googleBot: { index: true, follow: true, "max-image-preview": "large" },
     },
+    verification: trackingIds().googleVerification
+      ? { google: trackingIds().googleVerification }
+      : undefined,
     alternates: {
       canonical: url,
       languages: languageAlternates(path === "/verify" ? "/verify" : path),
@@ -167,7 +246,7 @@ export function buildPageMetadata(
           url: "/opengraph-image",
           width: 1200,
           height: 630,
-          alt: "Spoken Arabic classes in Riyadh for expats and non-native speakers",
+          alt: "Spoken Arabic crash course in Riyadh for Indian and GCC expats",
         },
       ],
     },
@@ -195,10 +274,16 @@ export function organizationJsonLd() {
     url: SITE_URL,
     telephone: SITE_PHONE,
     email: SITE_EMAIL,
-    image: `${SITE_URL}/logo.svg`,
-    logo: `${SITE_URL}/logo.svg`,
+    image: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/logo.png`,
     description: DESCRIPTIONS.en,
     inLanguage: ["en", "ar"],
+    knowsAbout: [
+      "Spoken Arabic crash course",
+      "Conversational Arabic for expats",
+      "Arabic classes in Riyadh",
+      "Live online Arabic Saudi GCC",
+    ],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Riyadh",
@@ -211,6 +296,7 @@ export function organizationJsonLd() {
       longitude: 46.6753,
     },
     areaServed: [
+      { "@type": "City", name: "Riyadh" },
       { "@type": "Country", name: "Saudi Arabia" },
       { "@type": "Country", name: "United Arab Emirates" },
       { "@type": "Country", name: "Qatar" },
@@ -222,7 +308,7 @@ export function organizationJsonLd() {
     audience: {
       "@type": "Audience",
       audienceType:
-        "Non-native speakers, Indian expats, GCC professionals, beginners learning spoken Arabic",
+        "Indian, Filipino, and Pakistani expats in Riyadh; non-native speakers learning spoken Arabic",
     },
     priceRange: "SAR",
     currenciesAccepted: "SAR",
@@ -235,9 +321,9 @@ export function courseJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Course",
-    name: "Spoken Arabic Course for Non-Native Speakers",
+    name: "Spoken Arabic Crash Course for Expats in Riyadh",
     description:
-      "Conversational Arabic classes in Riyadh and live online for expats from India and the GCC. 3-month spoken-first program for beginners and working professionals.",
+      "3-month intensive spoken Arabic in Riyadh for Indian and other non-native expats, plus live online classes across Saudi Arabia and the GCC.",
     url: SITE_URL,
     inLanguage: "ar",
     availableLanguage: ["en", "ar"],
@@ -247,11 +333,11 @@ export function courseJsonLd() {
     offers: [
       {
         "@type": "Offer",
-        name: "3-Month Spoken Arabic Package",
+        name: "3-Month Spoken Arabic Crash Course",
         price: "1899",
         priceCurrency: "SAR",
         availability: "https://schema.org/InStock",
-        url: `${SITE_URL}/#pricing`,
+        url: `${SITE_URL}/arabic-crash-course-riyadh`,
       },
       {
         "@type": "Offer",

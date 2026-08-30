@@ -7,11 +7,11 @@ import { Menu, Phone, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { LanguageSwitch } from "@/components/language-switch"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/content"
+import { LOGO_SRC, PHONE_DISPLAY, PHONE_HREF } from "@/lib/content"
 import { getCopy } from "@/lib/copy"
 import type { Locale } from "@/lib/locale"
 import type { Theme } from "@/lib/theme"
-import { localizedPath } from "@/lib/paths"
+import { homeHash, localizedPath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
 
 export function Navbar({
@@ -19,24 +19,27 @@ export function Navbar({
   phoneHref = PHONE_HREF,
   locale = "en",
   theme = "dark",
+  inner = false,
 }: {
   phoneDisplay?: string
   phoneHref?: string
   locale?: Locale
   theme?: Theme
+  inner?: boolean
 }) {
   const t = getCopy(locale)
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const section = (hash: string) => (inner ? homeHash(hash, locale) : hash)
 
   const links = [
-    { label: t.nav.about, href: "#why" },
-    { label: t.nav.courses, href: "#courses" },
-    { label: t.nav.online, href: "#online" },
-    { label: t.nav.pricing, href: "#pricing" },
+    { label: t.nav.about, href: section("#why") },
+    { label: t.nav.courses, href: section("#courses") },
+    { label: t.nav.online, href: section("#online") },
+    { label: t.nav.pricing, href: section("#pricing") },
     { label: t.nav.placement, href: localizedPath("/placement", locale) },
-    { label: t.nav.faq, href: "#faq" },
-    { label: t.nav.contact, href: "#contact" },
+    { label: t.nav.faq, href: section("#faq") },
+    { label: t.nav.contact, href: section("#contact") },
   ]
 
   useEffect(() => {
@@ -65,11 +68,11 @@ export function Navbar({
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
         <a href={localizedPath("/", locale)} className="group flex min-w-0 items-center gap-2 sm:gap-3">
           <Image
-            src="/logo.svg"
+            src={LOGO_SRC}
             alt="Arab Pro Academy — spoken Arabic classes in Riyadh for expats"
-            width={48}
-            height={48}
-            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-gold ring-offset-1 ring-offset-transparent sm:h-12 sm:w-12"
+            width={56}
+            height={56}
+            className="h-11 w-11 shrink-0 rounded-full object-contain sm:h-14 sm:w-14"
             priority
           />
           <div className="min-w-0">
@@ -100,7 +103,7 @@ export function Navbar({
           <LanguageSwitch locale={locale} theme={theme} />
           <ThemeToggle theme={theme} locale={locale} />
           <Button asChild size="sm">
-            <a href="#pricing">{t.enroll}</a>
+            <a href={section("#pricing")}>{t.enroll}</a>
           </Button>
         </div>
 
@@ -140,7 +143,7 @@ export function Navbar({
             <Phone size={16} /> {phoneDisplay}
           </a>
           <Button asChild size="sm" className="mt-1 mb-2 w-full">
-            <a href="#pricing" onClick={() => setOpen(false)}>
+            <a href={section("#pricing")} onClick={() => setOpen(false)}>
               {t.enroll}
             </a>
           </Button>

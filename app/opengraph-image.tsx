@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og"
 
 export const alt =
-  "Arab Pro Academy — Spoken Arabic classes in Riyadh for expats and non-native speakers"
+  "Arab Pro Academy — Spoken Arabic crash course in Riyadh for Indian and GCC expats"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -28,7 +28,7 @@ export default function OpenGraphImage() {
             fontWeight: 700,
           }}
         >
-          RIYADH · SAUDI ARABIA · ONLINE ACROSS GCC & INDIA
+          RIYADH CRASH COURSE · SAUDI · LIVE ONLINE GCC
         </div>
         <div
           style={{
@@ -41,7 +41,7 @@ export default function OpenGraphImage() {
             maxWidth: 980,
           }}
         >
-          Spoken Arabic for non-native speakers
+          Spoken Arabic crash course in Riyadh
         </div>
         <div
           style={{
@@ -51,7 +51,7 @@ export default function OpenGraphImage() {
             marginTop: 20,
           }}
         >
-          Master conversation in 3 months
+          Learn conversation fast — 3 months
         </div>
         <div
           style={{
@@ -61,7 +61,7 @@ export default function OpenGraphImage() {
             marginTop: 36,
           }}
         >
-          In-person in Riyadh · Live online for Indian & GCC expats
+          For Indian & GCC expats · In-person or live online
         </div>
       </div>
     ),
